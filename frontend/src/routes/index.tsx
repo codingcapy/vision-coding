@@ -1,10 +1,15 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
-import "./App.css";
+import reactLogo from "../assets/react.svg";
+import viteLogo from "../assets/vite.svg";
+import heroImg from "../assets/hero.png";
+import "../App.css";
 
-function App() {
+export const Route = createFileRoute("/")({
+  component: RouteComponent,
+});
+
+function RouteComponent() {
   const [count, setCount] = useState(0);
 
   return (
@@ -118,5 +123,3 @@ function App() {
     </>
   );
 }
-
-export default App;
