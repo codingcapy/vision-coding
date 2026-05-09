@@ -49,7 +49,22 @@ function RouteComponent() {
         </div>
       </AnimatedText>
       <AnimatedText id="idunno2">
-        <div className="text-center text-3xl">Why Choose Us</div>
+        <div className="text-center max-w-[1000px] mx-auto pb-10">
+          <div className="w-[100px] mt-10 md:mt-0 mb-10 mx-auto h-[2.5px] bg-linear-to-r from-transparent via-blue-400 to-transparent"></div>
+          <div className="text-3xl font-bold mb-5">Why Choose Us</div>
+          <div className="text-xl mb-10">
+            Not all coding academies are created equal. At Vision, we don't just
+            teach code — we solidify computer science and engineering
+            foundations. Our program is designed for individuals who have a
+            curiosity for software development and the tech industry.
+          </div>
+          <div className="text-3xl font-bold mb-10">
+            Ready to build your engineering path?
+          </div>
+          <div className="bg-blue-500 rounded-full w-[200px] mx-auto py-3 text-xl font-bold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300">
+            GET STARTED
+          </div>
+        </div>
       </AnimatedText>
     </div>
   );
