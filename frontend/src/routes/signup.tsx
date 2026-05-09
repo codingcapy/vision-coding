@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });
 
@@ -8,7 +8,7 @@ function RouteComponent() {
   return (
     <div className="bg-[radial-gradient(circle_500px_at_top_left,#27505d,black)] md:bg-[radial-gradient(circle_900px_at_top_left,#27505d,black)] text-white min-h-screen p-2 md:p-0">
       <div className="pt-[150px] flex flex-col">
-        <div className="text-center text-4xl font-bold mb-10">Sign in</div>
+        <div className="text-center text-4xl font-bold mb-10">Register</div>
         <form action="" className="mx-auto w-[300px]">
           <input
             type="email"
@@ -21,15 +21,15 @@ function RouteComponent() {
             placeholder="Password"
           />
           <button className="bg-blue-500 rounded w-full py-2 my-2 font-bold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300">
-            Sign in
+            Register
           </button>
           <div>
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link
-              to="/signup"
+              to="/login"
               className="text-blue-500 font-bold hover:text-blue-400 transition-all ease-in-out duration-300"
             >
-              register
+              Sign in
             </Link>
           </div>
         </form>

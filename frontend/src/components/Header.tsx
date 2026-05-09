@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import logo from "/logo_alpha.png";
+import { PiCaretDownBold } from "react-icons/pi";
 
 export function Header() {
   return (
@@ -13,12 +14,13 @@ export function Header() {
           </div>
         </Link>
         <div className="flex items-center">
-          <div className="hidden md:block px-3 mx-10 cursor-pointer">
-            Courses
+          <div className="hidden md:flex px-3 mx-10 cursor-pointer items-center hover:text-blue-500 transition-all ease-in-out duration-300">
+            <div className="mr-1">Programs</div>
+            <PiCaretDownBold />
           </div>
           <Link
             to="/login"
-            className="bg-blue-500 rounded-full px-3 py-1 font-semibold cursor-pointer"
+            className="bg-blue-500 rounded-full px-3 py-1 font-semibold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300"
           >
             Sign in
           </Link>
