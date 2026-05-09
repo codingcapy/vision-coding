@@ -48,6 +48,9 @@ function RouteComponent() {
           </div>
         </div>
       </AnimatedText>
+      <AnimatedText id="idunno2">
+        <div className="text-center text-3xl">Why Choose Us</div>
+      </AnimatedText>
     </div>
   );
 }
