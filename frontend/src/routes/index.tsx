@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import logo from "/logo_alpha.png";
 import { AnimatedText } from "../components/AnimatedText";
+import { BsCpu, BsCpuFill } from "react-icons/bs";
+import { FaJira, FaNetworkWired } from "react-icons/fa6";
+import { VscChecklist } from "react-icons/vsc";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -18,7 +21,7 @@ function RouteComponent() {
             <img
               src={logo}
               alt=""
-              className="w-[40%] md:scale-50 shrink-0 mx-auto md:mx-0"
+              className="w-[40%] md:scale-50 shrink-0 mx-auto md:mx-0 self-start"
             />
             <div className="md:pt-[100px]">
               <div className="px-1 py-3 rounded-full w-[300px] mx-auto md:mx-0 text-center text-xs font-bold border border-blue-500 text-blue-500 bg-[#0406349e] hover:bg-[#0f135b9e] transition-all ease-in-out duration-300">
@@ -58,6 +61,142 @@ function RouteComponent() {
             foundations. Our program is designed for individuals who have a
             curiosity for software development and the tech industry.
           </div>
+        </div>
+      </AnimatedText>
+      <div className="md:grid grid-cols-2 gap-10 max-w-[1200px] mx-auto mb-10 md:mb-20">
+        <AnimatedText id="idk3">
+          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
+            <div className="text-xl font-bold mb-5 flex items-center">
+              <BsCpu />
+              <div className="ml-2">Solid CS Foundation</div>
+            </div>
+            <div>
+              Discrete mathematics, data structures and algorithms, computer
+              architecture, data communications and networking
+            </div>
+          </div>
+        </AnimatedText>
+        <AnimatedText id="idk4">
+          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
+            <div className="text-xl font-bold mb-5 flex items-center">
+              <FaNetworkWired />
+              <div className="ml-2">Build Real Applications</div>
+            </div>
+            <div>
+              Databases, servers, clients, learn modern ways to build scalable,
+              secure apps and deploy them to the real world
+            </div>
+          </div>
+        </AnimatedText>
+        <AnimatedText id="idk5">
+          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
+            <div className="text-xl font-bold mb-5 flex items-center">
+              <VscChecklist />
+              <div className="ml-2">Coding Best Practices</div>
+            </div>
+            <div>
+              Learn to write readable, maintainable code as well as concise
+              documentation in any language
+            </div>
+          </div>
+        </AnimatedText>
+        <AnimatedText id="idk6">
+          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
+            <div className="text-xl font-bold mb-5 flex items-center">
+              <FaJira />
+              <div className="ml-2">Project Management</div>
+            </div>
+            <div>
+              Learn tools used by real-world professionals including Git,
+              Github, Jira, Linear, Trello and Figma
+            </div>
+          </div>
+        </AnimatedText>
+      </div>
+      <AnimatedText id="idk6">
+        <div className="max-w-[1200px] mx-auto mb-10">
+          <div className="text-center text-3xl font-bold mb-5">The Journey</div>
+          <div className="text-center text-xl mb-10">
+            Four carefully designed stages that build upon each other, creating
+            lasting skills and confidence. Start at any stage depending on your
+            education and experience.
+          </div>
+          <div className="md:grid grid-cols-4 gap-5">
+            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
+              <div className="text-xl font-bold text-[#cccccc] mb-2">
+                STAGE 1
+              </div>
+              <div className="text-lg font-bold text-yellow-500 mb-2">
+                Programming Fundamentals
+              </div>
+              <ul className="list-disc pl-5">
+                <li>Data types and data structures</li>
+                <li>Variables and constants</li>
+                <li>Control flow and iterations</li>
+                <li>Functions and recursions</li>
+                <li>Classes and objects</li>
+                <li>Inheritance and polymorphism</li>
+                <li>Computer architecture</li>
+                <li>Memory and algorithms</li>
+                <li>Git and version control</li>
+              </ul>
+            </div>
+            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
+              <div className="text-xl font-bold text-[#cccccc] mb-2">
+                STAGE 2
+              </div>
+              <div className="text-lg font-bold text-yellow-500 mb-2">
+                Front-End Development
+              </div>
+              <ul className="list-disc pl-5">
+                <li>HTML and CSS</li>
+                <li>JavaScript</li>
+                <li>UX/UI and Figma</li>
+                <li>React.js and TypeScript</li>
+                <li>Tailwind CSS and Axios</li>
+                <li>Tanstack Router and Query</li>
+                <li>Data communications and TCP</li>
+              </ul>
+            </div>
+            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
+              <div className="text-xl font-bold text-[#cccccc] mb-2">
+                STAGE 3
+              </div>
+              <div className="text-lg font-bold text-yellow-500 mb-2">
+                Back-End Development
+              </div>
+              <ul className="list-disc pl-5">
+                <li>Relational databases and SQL</li>
+                <li>Node.js and Express.js</li>
+                <li>REST API server building</li>
+                <li>Authentication and sessions</li>
+                <li>Bun and Hono</li>
+                <li>Rate limiting and security</li>
+                <li>LRU caching and DB indexing</li>
+                <li>Horizontal and vertical scaling</li>
+              </ul>
+            </div>
+            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
+              <div className="text-xl font-bold text-[#cccccc] mb-2">
+                STAGE 4
+              </div>
+              <div className="text-lg font-bold text-yellow-500 mb-2">
+                Practicum
+              </div>
+              <ul className="list-disc pl-5">
+                <li>Build and deploy full stack applications end-to-end</li>
+                <li>Use professional project management tools</li>
+                <li>Apply programming best practices</li>
+                <li>Debug and optimize performance for scalability</li>
+                <li>Ensure enteprise-grade app security</li>
+                <li>Implement CI/CD and devOps</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </AnimatedText>
+      <AnimatedText id="idk7">
+        <div className="mx-auto text-center">
           <div className="text-3xl font-bold mb-10">
             Ready to build your engineering path?
           </div>

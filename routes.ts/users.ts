@@ -1,6 +1,7 @@
 import z from "zod";
 import { scrypt, randomBytes } from "crypto";
 import { promisify } from "util";
+import { Hono } from "hono";
 
 const scryptAsync = promisify(scrypt);
 
@@ -15,3 +16,5 @@ const createUserSchema = z.object({
   email: z.email({ pattern: z.regexes.html5Email }).max(256),
   password: z.string().min(8).max(128),
 });
+
+export const usersRouter = new Hono();
