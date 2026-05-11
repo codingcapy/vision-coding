@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import logo from "/logo_alpha.png";
 import { AnimatedText } from "../components/AnimatedText";
@@ -15,7 +15,7 @@ function RouteComponent() {
 
   return (
     <div className="bg-[radial-gradient(circle_500px_at_top_left,#27505d,black)] md:bg-[radial-gradient(circle_900px_at_top_left,#27505d,black)] text-white min-h-screen p-2 md:p-0">
-      <AnimatedText id="idontknow">
+      <AnimatedText id="banner">
         <div className="md:flex flex-col pt-[50px]">
           <div className="md:flex md:mx-auto max-w-[1200px]">
             <img
@@ -51,7 +51,7 @@ function RouteComponent() {
           </div>
         </div>
       </AnimatedText>
-      <AnimatedText id="idunno2">
+      <AnimatedText id="description1">
         <div className="text-center max-w-[1000px] mx-auto pb-10">
           <div className="w-[100px] mt-10 md:mt-0 mb-10 mx-auto h-[2.5px] bg-linear-to-r from-transparent via-blue-400 to-transparent"></div>
           <div className="text-3xl font-bold mb-5">Why Choose Us</div>
@@ -64,7 +64,7 @@ function RouteComponent() {
         </div>
       </AnimatedText>
       <div className="md:grid grid-cols-2 gap-10 max-w-[1200px] mx-auto mb-10 md:mb-20">
-        <AnimatedText id="idk3">
+        <AnimatedText id="description2">
           <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
             <div className="text-xl font-bold mb-5 flex items-center">
               <BsCpu />
@@ -76,7 +76,7 @@ function RouteComponent() {
             </div>
           </div>
         </AnimatedText>
-        <AnimatedText id="idk4">
+        <AnimatedText id="description3">
           <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
             <div className="text-xl font-bold mb-5 flex items-center">
               <FaNetworkWired />
@@ -88,7 +88,7 @@ function RouteComponent() {
             </div>
           </div>
         </AnimatedText>
-        <AnimatedText id="idk5">
+        <AnimatedText id="description4">
           <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
             <div className="text-xl font-bold mb-5 flex items-center">
               <VscChecklist />
@@ -100,7 +100,7 @@ function RouteComponent() {
             </div>
           </div>
         </AnimatedText>
-        <AnimatedText id="idk6">
+        <AnimatedText id="description5">
           <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
             <div className="text-xl font-bold mb-5 flex items-center">
               <FaJira />
@@ -113,7 +113,7 @@ function RouteComponent() {
           </div>
         </AnimatedText>
       </div>
-      <AnimatedText id="idk6">
+      <AnimatedText id="description6">
         <div className="max-w-[1200px] mx-auto mb-10">
           <div className="text-center text-3xl font-bold mb-5">The Journey</div>
           <div className="text-center text-xl mb-10">
@@ -195,14 +195,16 @@ function RouteComponent() {
           </div>
         </div>
       </AnimatedText>
-      <AnimatedText id="idk7">
-        <div className="mx-auto text-center">
+      <AnimatedText id="description7">
+        <div className="mx-auto text-center pb-20">
           <div className="text-3xl font-bold mb-10">
             Ready to build your engineering path?
           </div>
-          <div className="bg-blue-500 rounded-full w-[200px] mx-auto py-3 text-xl font-bold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300">
-            GET STARTED
-          </div>
+          <Link to="/courses/all">
+            <div className="bg-blue-500 rounded-full w-[200px] mx-auto py-3 text-xl font-bold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300">
+              GET STARTED
+            </div>
+          </Link>
         </div>
       </AnimatedText>
     </div>

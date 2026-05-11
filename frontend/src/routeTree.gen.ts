@@ -10,12 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoursesPythonRouteImport } from './routes/courses/python'
+import { Route as CoursesFullstackRouteImport } from './routes/courses/fullstack'
+import { Route as CoursesFrontendRouteImport } from './routes/courses/frontend'
+import { Route as CoursesBackendRouteImport } from './routes/courses/backend'
+import { Route as CoursesAllRouteImport } from './routes/courses/all'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramsRoute = ProgramsRouteImport.update({
+  id: '/programs',
+  path: '/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -23,40 +36,141 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesPythonRoute = CoursesPythonRouteImport.update({
+  id: '/courses/python',
+  path: '/courses/python',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesFullstackRoute = CoursesFullstackRouteImport.update({
+  id: '/courses/fullstack',
+  path: '/courses/fullstack',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesFrontendRoute = CoursesFrontendRouteImport.update({
+  id: '/courses/frontend',
+  path: '/courses/frontend',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesBackendRoute = CoursesBackendRouteImport.update({
+  id: '/courses/backend',
+  path: '/courses/backend',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesAllRoute = CoursesAllRouteImport.update({
+  id: '/courses/all',
+  path: '/courses/all',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/programs': typeof ProgramsRoute
   '/signup': typeof SignupRoute
+  '/courses/all': typeof CoursesAllRoute
+  '/courses/backend': typeof CoursesBackendRoute
+  '/courses/frontend': typeof CoursesFrontendRoute
+  '/courses/fullstack': typeof CoursesFullstackRoute
+  '/courses/python': typeof CoursesPythonRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/programs': typeof ProgramsRoute
   '/signup': typeof SignupRoute
+  '/courses/all': typeof CoursesAllRoute
+  '/courses/backend': typeof CoursesBackendRoute
+  '/courses/frontend': typeof CoursesFrontendRoute
+  '/courses/fullstack': typeof CoursesFullstackRoute
+  '/courses/python': typeof CoursesPythonRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/programs': typeof ProgramsRoute
   '/signup': typeof SignupRoute
+  '/courses/all': typeof CoursesAllRoute
+  '/courses/backend': typeof CoursesBackendRoute
+  '/courses/frontend': typeof CoursesFrontendRoute
+  '/courses/fullstack': typeof CoursesFullstackRoute
+  '/courses/python': typeof CoursesPythonRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/signup'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/programs'
+    | '/signup'
+    | '/courses/all'
+    | '/courses/backend'
+    | '/courses/frontend'
+    | '/courses/fullstack'
+    | '/courses/python'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup'
-  id: '__root__' | '/' | '/login' | '/signup'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/programs'
+    | '/signup'
+    | '/courses/all'
+    | '/courses/backend'
+    | '/courses/frontend'
+    | '/courses/fullstack'
+    | '/courses/python'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/login'
+    | '/programs'
+    | '/signup'
+    | '/courses/all'
+    | '/courses/backend'
+    | '/courses/frontend'
+    | '/courses/fullstack'
+    | '/courses/python'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
+  ProgramsRoute: typeof ProgramsRoute
   SignupRoute: typeof SignupRoute
+  CoursesAllRoute: typeof CoursesAllRoute
+  CoursesBackendRoute: typeof CoursesBackendRoute
+  CoursesFrontendRoute: typeof CoursesFrontendRoute
+  CoursesFullstackRoute: typeof CoursesFullstackRoute
+  CoursesPythonRoute: typeof CoursesPythonRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,11 +182,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs': {
+      id: '/programs'
+      path: '/programs'
+      fullPath: '/programs'
+      preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -82,13 +217,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/python': {
+      id: '/courses/python'
+      path: '/courses/python'
+      fullPath: '/courses/python'
+      preLoaderRoute: typeof CoursesPythonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/fullstack': {
+      id: '/courses/fullstack'
+      path: '/courses/fullstack'
+      fullPath: '/courses/fullstack'
+      preLoaderRoute: typeof CoursesFullstackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/frontend': {
+      id: '/courses/frontend'
+      path: '/courses/frontend'
+      fullPath: '/courses/frontend'
+      preLoaderRoute: typeof CoursesFrontendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/backend': {
+      id: '/courses/backend'
+      path: '/courses/backend'
+      fullPath: '/courses/backend'
+      preLoaderRoute: typeof CoursesBackendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/all': {
+      id: '/courses/all'
+      path: '/courses/all'
+      fullPath: '/courses/all'
+      preLoaderRoute: typeof CoursesAllRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
+  ProgramsRoute: ProgramsRoute,
   SignupRoute: SignupRoute,
+  CoursesAllRoute: CoursesAllRoute,
+  CoursesBackendRoute: CoursesBackendRoute,
+  CoursesFrontendRoute: CoursesFrontendRoute,
+  CoursesFullstackRoute: CoursesFullstackRoute,
+  CoursesPythonRoute: CoursesPythonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -61,14 +61,14 @@ export function Header() {
           {menuMode === "more" && (
             <div className="absolute px-3 top-[40px] right-[110px] bg-[#0a0a0ac3] flex flex-col">
               <Link
-                to="/"
+                to="/about"
                 onClick={() => setMenuMode("none")}
                 className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300"
               >
                 About us
               </Link>
               <Link
-                to="/"
+                to="/contact"
                 onClick={() => setMenuMode("none")}
                 className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300"
               >
@@ -79,35 +79,35 @@ export function Header() {
           {menuMode === "programs" && (
             <div className="absolute px-3 top-[40px] right-[210px] bg-[#0a0a0ac3] flex flex-col">
               <Link
-                to="/"
+                to="/courses/all"
                 onClick={() => setMenuMode("none")}
                 className="py-2 w-[80px] hover:text-blue-500 transition-all ease-in-out duration-300"
               >
                 All courses
               </Link>
               <Link
-                to="/"
+                to="/courses/python"
                 onClick={() => setMenuMode("none")}
                 className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300"
               >
                 Python
               </Link>
               <Link
-                to="/"
+                to="/courses/frontend"
                 onClick={() => setMenuMode("none")}
                 className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300"
               >
                 Frontend
               </Link>
               <Link
-                to="/"
+                to="/courses/backend"
                 onClick={() => setMenuMode("none")}
                 className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300"
               >
                 Backend
               </Link>
               <Link
-                to="/"
+                to="/courses/fullstack"
                 onClick={() => setMenuMode("none")}
                 className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300"
               >
@@ -122,13 +122,21 @@ export function Header() {
       </div>
       {showNav && (
         <div className="md:hidden fixed top-[60px] left-0 w-screen text-center flex flex-col bg-[#0a0a0ac3]">
-          <Link to="/" onClick={() => setShowNav(false)} className="py-2">
+          <Link
+            to="/programs"
+            onClick={() => setShowNav(false)}
+            className="py-2"
+          >
             Programs
           </Link>
-          <Link to="/" onClick={() => setShowNav(false)} className="py-2">
+          <Link to="/about" onClick={() => setShowNav(false)} className="py-2">
             About us
           </Link>
-          <Link to="/" onClick={() => setShowNav(false)} className="py-2">
+          <Link
+            to="/contact"
+            onClick={() => setShowNav(false)}
+            className="py-2"
+          >
             Contact
           </Link>
           <Link
