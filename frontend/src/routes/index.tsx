@@ -5,6 +5,21 @@ import { AnimatedText } from "../components/AnimatedText";
 import { BsCpu, BsCpuFill } from "react-icons/bs";
 import { FaJira, FaNetworkWired } from "react-icons/fa6";
 import { VscChecklist } from "react-icons/vsc";
+import type { IconType } from "react-icons/lib";
+import { HomeValueCard } from "../components/HomeValueCard";
+import { HomeStageCard } from "../components/HomeStageCard";
+
+export type ValueCard = {
+  title: string;
+  description: string;
+  icon: IconType;
+};
+
+export type StageCard = {
+  title: string;
+  description: string;
+  topics: string[];
+};
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -12,6 +27,88 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   const [count, setCount] = useState(0);
+  const valueCards: ValueCard[] = [
+    {
+      title: "Solid CS Foundation",
+      description:
+        "Discrete mathematics, data structures and algorithms, computer architecture, data communications and networking",
+      icon: BsCpu,
+    },
+    {
+      title: "Build Real Applications",
+      description:
+        "Databases, servers, clients, learn modern ways to build scalable, secure apps and deploy them to the real world",
+      icon: FaNetworkWired,
+    },
+    {
+      title: "Coding Best Practices",
+      description:
+        "Learn to write readable, maintainable code as well as concise documentation in any language",
+      icon: VscChecklist,
+    },
+    {
+      title: "Project Management",
+      description:
+        "Learn tools used by real-world professionals including Git, Github, Jira, Linear, Trello and Figma",
+      icon: FaJira,
+    },
+  ];
+  const stageCards: StageCard[] = [
+    {
+      title: "STAGE 1",
+      description: "Programming Fundamentals",
+      topics: [
+        "Data types and data structures",
+        "Variables and constants",
+        "Control flow and iterations",
+        "Functions and recursions",
+        "Classes and objects",
+        "Inheritance and polymorphism",
+        "Computer architecture",
+        "Memory and algorithms",
+        "Git and version control",
+      ],
+    },
+    {
+      title: "STAGE 2",
+      description: "Front-End Development",
+      topics: [
+        "HTML and CSS",
+        "JavaScript",
+        "UX/UI and Figma",
+        "React.js and TypeScript",
+        "Tailwind CSS and Axios",
+        "Tanstack Router and Query",
+        "Data communications and TCP",
+      ],
+    },
+    {
+      title: "STAGE 3",
+      description: "Back-End Development",
+      topics: [
+        "Relational databases and SQL",
+        "Node.js and Express.js",
+        "REST API server building",
+        "Authentication and sessions",
+        "Bun and Hono",
+        "Rate limiting and security",
+        "LRU caching and DB indexing",
+        "Horizontal and vertical scaling",
+      ],
+    },
+    {
+      title: "STAGE 4",
+      description: "Practicum",
+      topics: [
+        "Build and deploy full stack applications end-to-end",
+        "Use professional project management tools",
+        "Apply programming best practices",
+        "Debug and optimize performance for scalability",
+        "Ensure enteprise-grade app security",
+        "Implement CI/CD and devOps",
+      ],
+    },
+  ];
 
   return (
     <div className="bg-[radial-gradient(circle_500px_at_top_left,#27505d,black)] md:bg-[radial-gradient(circle_900px_at_top_left,#27505d,black)] text-white min-h-screen p-2 md:p-0">
@@ -64,54 +161,9 @@ function RouteComponent() {
         </div>
       </AnimatedText>
       <div className="md:grid grid-cols-2 gap-10 max-w-[1200px] mx-auto mb-10 md:mb-20">
-        <AnimatedText id="description2">
-          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
-            <div className="text-xl font-bold mb-5 flex items-center">
-              <BsCpu />
-              <div className="ml-2">Solid CS Foundation</div>
-            </div>
-            <div>
-              Discrete mathematics, data structures and algorithms, computer
-              architecture, data communications and networking
-            </div>
-          </div>
-        </AnimatedText>
-        <AnimatedText id="description3">
-          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
-            <div className="text-xl font-bold mb-5 flex items-center">
-              <FaNetworkWired />
-              <div className="ml-2">Build Real Applications</div>
-            </div>
-            <div>
-              Databases, servers, clients, learn modern ways to build scalable,
-              secure apps and deploy them to the real world
-            </div>
-          </div>
-        </AnimatedText>
-        <AnimatedText id="description4">
-          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
-            <div className="text-xl font-bold mb-5 flex items-center">
-              <VscChecklist />
-              <div className="ml-2">Coding Best Practices</div>
-            </div>
-            <div>
-              Learn to write readable, maintainable code as well as concise
-              documentation in any language
-            </div>
-          </div>
-        </AnimatedText>
-        <AnimatedText id="description5">
-          <div className="mb-3 md:mb-0 rounded-xl border border-[#505050] bg-[#222222] p-5 hover:border-blue-500 transition-all ease-in-out duration-300">
-            <div className="text-xl font-bold mb-5 flex items-center">
-              <FaJira />
-              <div className="ml-2">Project Management</div>
-            </div>
-            <div>
-              Learn tools used by real-world professionals including Git,
-              Github, Jira, Linear, Trello and Figma
-            </div>
-          </div>
-        </AnimatedText>
+        {valueCards.map((c, idx) => (
+          <HomeValueCard valueCard={valueCards[idx]} />
+        ))}
       </div>
       <AnimatedText id="description6">
         <div className="max-w-[1200px] mx-auto mb-10">
@@ -122,76 +174,9 @@ function RouteComponent() {
             education and experience.
           </div>
           <div className="md:grid grid-cols-4 gap-5">
-            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
-              <div className="text-xl font-bold text-[#cccccc] mb-2">
-                STAGE 1
-              </div>
-              <div className="text-lg font-bold text-yellow-500 mb-2">
-                Programming Fundamentals
-              </div>
-              <ul className="list-disc pl-5">
-                <li>Data types and data structures</li>
-                <li>Variables and constants</li>
-                <li>Control flow and iterations</li>
-                <li>Functions and recursions</li>
-                <li>Classes and objects</li>
-                <li>Inheritance and polymorphism</li>
-                <li>Computer architecture</li>
-                <li>Memory and algorithms</li>
-                <li>Git and version control</li>
-              </ul>
-            </div>
-            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
-              <div className="text-xl font-bold text-[#cccccc] mb-2">
-                STAGE 2
-              </div>
-              <div className="text-lg font-bold text-yellow-500 mb-2">
-                Front-End Development
-              </div>
-              <ul className="list-disc pl-5">
-                <li>HTML and CSS</li>
-                <li>JavaScript</li>
-                <li>UX/UI and Figma</li>
-                <li>React.js and TypeScript</li>
-                <li>Tailwind CSS and Axios</li>
-                <li>Tanstack Router and Query</li>
-                <li>Data communications and TCP</li>
-              </ul>
-            </div>
-            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
-              <div className="text-xl font-bold text-[#cccccc] mb-2">
-                STAGE 3
-              </div>
-              <div className="text-lg font-bold text-yellow-500 mb-2">
-                Back-End Development
-              </div>
-              <ul className="list-disc pl-5">
-                <li>Relational databases and SQL</li>
-                <li>Node.js and Express.js</li>
-                <li>REST API server building</li>
-                <li>Authentication and sessions</li>
-                <li>Bun and Hono</li>
-                <li>Rate limiting and security</li>
-                <li>LRU caching and DB indexing</li>
-                <li>Horizontal and vertical scaling</li>
-              </ul>
-            </div>
-            <div className="border rounded-xl border-[#505050] bg-[#222222] p-5 mb-3 md:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300">
-              <div className="text-xl font-bold text-[#cccccc] mb-2">
-                STAGE 4
-              </div>
-              <div className="text-lg font-bold text-yellow-500 mb-2">
-                Practicum
-              </div>
-              <ul className="list-disc pl-5">
-                <li>Build and deploy full stack applications end-to-end</li>
-                <li>Use professional project management tools</li>
-                <li>Apply programming best practices</li>
-                <li>Debug and optimize performance for scalability</li>
-                <li>Ensure enteprise-grade app security</li>
-                <li>Implement CI/CD and devOps</li>
-              </ul>
-            </div>
+            {stageCards.map((s) => (
+              <HomeStageCard stageCard={s} />
+            ))}
           </div>
         </div>
       </AnimatedText>
