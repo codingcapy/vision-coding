@@ -15,9 +15,18 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoursesPython2RouteImport } from './routes/courses/python2'
+import { Route as CoursesPython1RouteImport } from './routes/courses/python1'
 import { Route as CoursesPythonRouteImport } from './routes/courses/python'
+import { Route as CoursesPracticumRouteImport } from './routes/courses/practicum'
 import { Route as CoursesFullstackRouteImport } from './routes/courses/fullstack'
+import { Route as CoursesFrontend2RouteImport } from './routes/courses/frontend2'
+import { Route as CoursesFrontend1RouteImport } from './routes/courses/frontend1'
 import { Route as CoursesFrontendRouteImport } from './routes/courses/frontend'
+import { Route as CoursesDatacommRouteImport } from './routes/courses/datacomm'
+import { Route as CoursesComparchRouteImport } from './routes/courses/comparch'
+import { Route as CoursesBackend2RouteImport } from './routes/courses/backend2'
+import { Route as CoursesBackend1RouteImport } from './routes/courses/backend1'
 import { Route as CoursesBackendRouteImport } from './routes/courses/backend'
 import { Route as CoursesAllRouteImport } from './routes/courses/all'
 
@@ -51,9 +60,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesPython2Route = CoursesPython2RouteImport.update({
+  id: '/courses/python2',
+  path: '/courses/python2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesPython1Route = CoursesPython1RouteImport.update({
+  id: '/courses/python1',
+  path: '/courses/python1',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesPythonRoute = CoursesPythonRouteImport.update({
   id: '/courses/python',
   path: '/courses/python',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesPracticumRoute = CoursesPracticumRouteImport.update({
+  id: '/courses/practicum',
+  path: '/courses/practicum',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoursesFullstackRoute = CoursesFullstackRouteImport.update({
@@ -61,9 +85,39 @@ const CoursesFullstackRoute = CoursesFullstackRouteImport.update({
   path: '/courses/fullstack',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesFrontend2Route = CoursesFrontend2RouteImport.update({
+  id: '/courses/frontend2',
+  path: '/courses/frontend2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesFrontend1Route = CoursesFrontend1RouteImport.update({
+  id: '/courses/frontend1',
+  path: '/courses/frontend1',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesFrontendRoute = CoursesFrontendRouteImport.update({
   id: '/courses/frontend',
   path: '/courses/frontend',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesDatacommRoute = CoursesDatacommRouteImport.update({
+  id: '/courses/datacomm',
+  path: '/courses/datacomm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesComparchRoute = CoursesComparchRouteImport.update({
+  id: '/courses/comparch',
+  path: '/courses/comparch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesBackend2Route = CoursesBackend2RouteImport.update({
+  id: '/courses/backend2',
+  path: '/courses/backend2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoursesBackend1Route = CoursesBackend1RouteImport.update({
+  id: '/courses/backend1',
+  path: '/courses/backend1',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoursesBackendRoute = CoursesBackendRouteImport.update({
@@ -86,9 +140,18 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/courses/all': typeof CoursesAllRoute
   '/courses/backend': typeof CoursesBackendRoute
+  '/courses/backend1': typeof CoursesBackend1Route
+  '/courses/backend2': typeof CoursesBackend2Route
+  '/courses/comparch': typeof CoursesComparchRoute
+  '/courses/datacomm': typeof CoursesDatacommRoute
   '/courses/frontend': typeof CoursesFrontendRoute
+  '/courses/frontend1': typeof CoursesFrontend1Route
+  '/courses/frontend2': typeof CoursesFrontend2Route
   '/courses/fullstack': typeof CoursesFullstackRoute
+  '/courses/practicum': typeof CoursesPracticumRoute
   '/courses/python': typeof CoursesPythonRoute
+  '/courses/python1': typeof CoursesPython1Route
+  '/courses/python2': typeof CoursesPython2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -99,9 +162,18 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/courses/all': typeof CoursesAllRoute
   '/courses/backend': typeof CoursesBackendRoute
+  '/courses/backend1': typeof CoursesBackend1Route
+  '/courses/backend2': typeof CoursesBackend2Route
+  '/courses/comparch': typeof CoursesComparchRoute
+  '/courses/datacomm': typeof CoursesDatacommRoute
   '/courses/frontend': typeof CoursesFrontendRoute
+  '/courses/frontend1': typeof CoursesFrontend1Route
+  '/courses/frontend2': typeof CoursesFrontend2Route
   '/courses/fullstack': typeof CoursesFullstackRoute
+  '/courses/practicum': typeof CoursesPracticumRoute
   '/courses/python': typeof CoursesPythonRoute
+  '/courses/python1': typeof CoursesPython1Route
+  '/courses/python2': typeof CoursesPython2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -113,9 +185,18 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/courses/all': typeof CoursesAllRoute
   '/courses/backend': typeof CoursesBackendRoute
+  '/courses/backend1': typeof CoursesBackend1Route
+  '/courses/backend2': typeof CoursesBackend2Route
+  '/courses/comparch': typeof CoursesComparchRoute
+  '/courses/datacomm': typeof CoursesDatacommRoute
   '/courses/frontend': typeof CoursesFrontendRoute
+  '/courses/frontend1': typeof CoursesFrontend1Route
+  '/courses/frontend2': typeof CoursesFrontend2Route
   '/courses/fullstack': typeof CoursesFullstackRoute
+  '/courses/practicum': typeof CoursesPracticumRoute
   '/courses/python': typeof CoursesPythonRoute
+  '/courses/python1': typeof CoursesPython1Route
+  '/courses/python2': typeof CoursesPython2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,9 +209,18 @@ export interface FileRouteTypes {
     | '/signup'
     | '/courses/all'
     | '/courses/backend'
+    | '/courses/backend1'
+    | '/courses/backend2'
+    | '/courses/comparch'
+    | '/courses/datacomm'
     | '/courses/frontend'
+    | '/courses/frontend1'
+    | '/courses/frontend2'
     | '/courses/fullstack'
+    | '/courses/practicum'
     | '/courses/python'
+    | '/courses/python1'
+    | '/courses/python2'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -141,9 +231,18 @@ export interface FileRouteTypes {
     | '/signup'
     | '/courses/all'
     | '/courses/backend'
+    | '/courses/backend1'
+    | '/courses/backend2'
+    | '/courses/comparch'
+    | '/courses/datacomm'
     | '/courses/frontend'
+    | '/courses/frontend1'
+    | '/courses/frontend2'
     | '/courses/fullstack'
+    | '/courses/practicum'
     | '/courses/python'
+    | '/courses/python1'
+    | '/courses/python2'
   id:
     | '__root__'
     | '/'
@@ -154,9 +253,18 @@ export interface FileRouteTypes {
     | '/signup'
     | '/courses/all'
     | '/courses/backend'
+    | '/courses/backend1'
+    | '/courses/backend2'
+    | '/courses/comparch'
+    | '/courses/datacomm'
     | '/courses/frontend'
+    | '/courses/frontend1'
+    | '/courses/frontend2'
     | '/courses/fullstack'
+    | '/courses/practicum'
     | '/courses/python'
+    | '/courses/python1'
+    | '/courses/python2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -168,9 +276,18 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   CoursesAllRoute: typeof CoursesAllRoute
   CoursesBackendRoute: typeof CoursesBackendRoute
+  CoursesBackend1Route: typeof CoursesBackend1Route
+  CoursesBackend2Route: typeof CoursesBackend2Route
+  CoursesComparchRoute: typeof CoursesComparchRoute
+  CoursesDatacommRoute: typeof CoursesDatacommRoute
   CoursesFrontendRoute: typeof CoursesFrontendRoute
+  CoursesFrontend1Route: typeof CoursesFrontend1Route
+  CoursesFrontend2Route: typeof CoursesFrontend2Route
   CoursesFullstackRoute: typeof CoursesFullstackRoute
+  CoursesPracticumRoute: typeof CoursesPracticumRoute
   CoursesPythonRoute: typeof CoursesPythonRoute
+  CoursesPython1Route: typeof CoursesPython1Route
+  CoursesPython2Route: typeof CoursesPython2Route
 }
 
 declare module '@tanstack/react-router' {
@@ -217,11 +334,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/python2': {
+      id: '/courses/python2'
+      path: '/courses/python2'
+      fullPath: '/courses/python2'
+      preLoaderRoute: typeof CoursesPython2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/python1': {
+      id: '/courses/python1'
+      path: '/courses/python1'
+      fullPath: '/courses/python1'
+      preLoaderRoute: typeof CoursesPython1RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/python': {
       id: '/courses/python'
       path: '/courses/python'
       fullPath: '/courses/python'
       preLoaderRoute: typeof CoursesPythonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/practicum': {
+      id: '/courses/practicum'
+      path: '/courses/practicum'
+      fullPath: '/courses/practicum'
+      preLoaderRoute: typeof CoursesPracticumRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/courses/fullstack': {
@@ -231,11 +369,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoursesFullstackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/frontend2': {
+      id: '/courses/frontend2'
+      path: '/courses/frontend2'
+      fullPath: '/courses/frontend2'
+      preLoaderRoute: typeof CoursesFrontend2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/frontend1': {
+      id: '/courses/frontend1'
+      path: '/courses/frontend1'
+      fullPath: '/courses/frontend1'
+      preLoaderRoute: typeof CoursesFrontend1RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/frontend': {
       id: '/courses/frontend'
       path: '/courses/frontend'
       fullPath: '/courses/frontend'
       preLoaderRoute: typeof CoursesFrontendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/datacomm': {
+      id: '/courses/datacomm'
+      path: '/courses/datacomm'
+      fullPath: '/courses/datacomm'
+      preLoaderRoute: typeof CoursesDatacommRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/comparch': {
+      id: '/courses/comparch'
+      path: '/courses/comparch'
+      fullPath: '/courses/comparch'
+      preLoaderRoute: typeof CoursesComparchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/backend2': {
+      id: '/courses/backend2'
+      path: '/courses/backend2'
+      fullPath: '/courses/backend2'
+      preLoaderRoute: typeof CoursesBackend2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/courses/backend1': {
+      id: '/courses/backend1'
+      path: '/courses/backend1'
+      fullPath: '/courses/backend1'
+      preLoaderRoute: typeof CoursesBackend1RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/courses/backend': {
@@ -264,9 +444,18 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   CoursesAllRoute: CoursesAllRoute,
   CoursesBackendRoute: CoursesBackendRoute,
+  CoursesBackend1Route: CoursesBackend1Route,
+  CoursesBackend2Route: CoursesBackend2Route,
+  CoursesComparchRoute: CoursesComparchRoute,
+  CoursesDatacommRoute: CoursesDatacommRoute,
   CoursesFrontendRoute: CoursesFrontendRoute,
+  CoursesFrontend1Route: CoursesFrontend1Route,
+  CoursesFrontend2Route: CoursesFrontend2Route,
   CoursesFullstackRoute: CoursesFullstackRoute,
+  CoursesPracticumRoute: CoursesPracticumRoute,
   CoursesPythonRoute: CoursesPythonRoute,
+  CoursesPython1Route: CoursesPython1Route,
+  CoursesPython2Route: CoursesPython2Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

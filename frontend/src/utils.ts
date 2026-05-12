@@ -12,7 +12,16 @@ export type Course = {
   description: string;
   category: "fundamentals" | "frontend" | "backend" | "fullstack";
   topics: string[];
-  subpath: string;
+  subpath:
+    | "python1"
+    | "python2"
+    | "frontend1"
+    | "frontend2"
+    | "backend1"
+    | "backend2"
+    | "comparch"
+    | "datacomm"
+    | "practicum";
 };
 
 export const courses: Course[] = [
