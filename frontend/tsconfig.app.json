@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "@server": ["../app.ts"]
+      "@server/*": ["../*"]
     }
   },
   "include": ["src"]

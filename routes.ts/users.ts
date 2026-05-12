@@ -5,7 +5,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { mightFail } from "might-fail";
 import { db } from "../db";
-import { users as usersTable } from "../schema/users";
+import { users as usersTable } from "../schemas/users";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { randomUUIDv7 } from "bun";

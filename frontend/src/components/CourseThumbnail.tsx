@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { Course } from "../utils";
+import type { Course } from "../lib/utils";
 
 export function CourseThumbnail(props: { course: Course }) {
   const Icon = props.course.icon;

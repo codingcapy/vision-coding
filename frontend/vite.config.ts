@@ -16,7 +16,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@server": path.resolve(__dirname, "../app.ts"),
+      "@server": path.resolve(__dirname, ".."),
     },
   },
 });

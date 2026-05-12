@@ -3,13 +3,15 @@ import logo from "/logo_alpha.png";
 import { PiCaretDownBold } from "react-icons/pi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useRef, useState } from "react";
+import useAuthStore from "../store/AuthStore";
 
-type MenuMode = "none" | "programs" | "more";
+type MenuMode = "none" | "programs" | "more" | "user";
 
 export function Header() {
   const [showNav, setShowNav] = useState(false);
   const [menuMode, setMenuMode] = useState("none");
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const { logoutService, user } = useAuthStore();
 
   function handleClickOutside(event: MouseEvent) {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -51,13 +53,22 @@ export function Header() {
             <div className="mr-1">More</div>
             <PiCaretDownBold />
           </div>
-          <Link
-            to="/login"
-            onClick={() => setMenuMode("none")}
-            className="bg-blue-500 rounded-full px-3 py-1 font-semibold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300"
-          >
-            Sign in
-          </Link>
+          {user ? (
+            <div
+              onClick={() => setMenuMode("user")}
+              className="px-3 py-1 font-semibold cursor-pointer hover:text-blue-500 transition-all ease-in-out duration-300"
+            >
+              {user.username}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setMenuMode("none")}
+              className="bg-blue-500 rounded-full px-3 py-1 font-semibold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300"
+            >
+              Sign in
+            </Link>
+          )}
           {menuMode === "more" && (
             <div className="absolute px-3 top-[40px] right-[110px] bg-[#0a0a0ac3] flex flex-col">
               <Link
@@ -115,6 +126,19 @@ export function Header() {
               </Link>
             </div>
           )}
+          {menuMode === "user" && (
+            <div className="absolute px-3 top-[40px] right-[0px] bg-[#0a0a0ac3] flex flex-col">
+              <div
+                onClick={() => {
+                  logoutService();
+                  setMenuMode("none");
+                }}
+                className="py-2 cursor-pointer hover:text-blue-500 transition-all ease-in-out duration-300"
+              >
+                Log out
+              </div>
+            </div>
+          )}
         </div>
         <div onClick={() => setShowNav(!showNav)} className="md:hidden">
           <GiHamburgerMenu size={25} />
@@ -139,13 +163,19 @@ export function Header() {
           >
             Contact
           </Link>
-          <Link
-            to="/login"
-            onClick={() => setShowNav(false)}
-            className="bg-blue-500 py-2"
-          >
-            Sign in
-          </Link>
+          {user ? (
+            <div onClick={() => setMenuMode("user")} className="py-2">
+              {user.username}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setShowNav(false)}
+              className="bg-blue-500 py-2"
+            >
+              Sign in
+            </Link>
+          )}
         </div>
       )}
     </div>

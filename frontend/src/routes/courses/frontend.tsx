@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatedText } from "../../components/AnimatedText";
-import { courses } from "../../utils";
+import { courses } from "../../lib/utils";
 import { CourseThumbnail } from "../../components/CourseThumbnail";
 
 export const Route = createFileRoute("/courses/frontend")({

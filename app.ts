@@ -6,6 +6,8 @@ import { secureHeaders } from "hono/secure-headers";
 import { serveStatic } from "hono/bun";
 import { serve } from "@hono/node-server";
 import { rateLimiter } from "hono-rate-limiter";
+import { usersRouter } from "./routes.ts/users";
+import { userRouter } from "./routes.ts/user";
 
 const getClientIp = (c: Context) =>
   c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
@@ -37,7 +39,10 @@ app.use(
 
 const PORT = parseInt(process.env.PORT!) || 3333;
 
-const apiRoutes = app.basePath("/api/v0");
+const apiRoutes = app
+  .basePath("/api/v0")
+  .route("/users", usersRouter)
+  .route("/user", userRouter);
 
 export type ApiRoutes = typeof apiRoutes;
 export default app;
