@@ -162,7 +162,7 @@ function RouteComponent() {
       </AnimatedText>
       <div className="md:grid grid-cols-2 gap-10 max-w-[1200px] mx-auto mb-10 md:mb-20">
         {valueCards.map((c, idx) => (
-          <HomeValueCard valueCard={valueCards[idx]} />
+          <HomeValueCard key={c.title} valueCard={valueCards[idx]} />
         ))}
       </div>
       <AnimatedText id="description6">
@@ -175,7 +175,7 @@ function RouteComponent() {
           </div>
           <div className="md:grid grid-cols-4 gap-5">
             {stageCards.map((s) => (
-              <HomeStageCard stageCard={s} />
+              <HomeStageCard key={s.title} stageCard={s} />
             ))}
           </div>
         </div>

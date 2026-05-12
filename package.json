@@ -16,10 +16,13 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.0.1",
+    "@hono/zod-validator": "^0.8.0",
     "@types/pg": "^8.20.0",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.18",
+    "hono-rate-limiter": "^0.5.3",
+    "might-fail": "^0.7.5",
     "pg": "^8.20.0",
     "zod": "^4.4.3"
   }

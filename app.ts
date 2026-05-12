@@ -1,10 +1,16 @@
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import { cors } from "hono/cors";
 import { compress } from "hono/compress";
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
 import { serveStatic } from "hono/bun";
 import { serve } from "@hono/node-server";
+import { rateLimiter } from "hono-rate-limiter";
+
+const getClientIp = (c: Context) =>
+  c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
+  c.req.header("x-real-ip") ??
+  "unknown";
 
 const app = new Hono();
 
@@ -18,6 +24,14 @@ app.use(
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
+  }),
+);
+app.use(
+  "/api/v0/users",
+  rateLimiter({
+    windowMs: 60 * 60 * 1000,
+    limit: 10,
+    keyGenerator: getClientIp,
   }),
 );
 

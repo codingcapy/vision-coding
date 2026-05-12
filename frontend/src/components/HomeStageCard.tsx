@@ -11,7 +11,7 @@ export function HomeStageCard(props: { stageCard: StageCard }) {
       </div>
       <ul className="list-disc pl-5">
         {props.stageCard.topics.map((t) => (
-          <li>{t}</li>
+          <li key={t}>{t}</li>
         ))}
       </ul>
     </div>
