@@ -86,7 +86,16 @@ export const courses: Course[] = [
     description:
       "Introduction to web development with HTML, CSS and JavaScript",
     category: "frontend",
-    topics: [""],
+    topics: [
+      "HTML and CSS",
+      "CSS flexbox and grid",
+      "SCSS and SASS",
+      "JavaScript - variables and constants",
+      "JavaScript - arrays, maps, tuples, sets",
+      "JavaScript - control flows, loops",
+      "JavaScript - functions, classes and objects",
+      "UX/UI and Figma",
+    ],
     subpath: "frontend1",
   },
   {
@@ -94,7 +103,15 @@ export const courses: Course[] = [
     icon: FaReact,
     description: "Front-end development with React.js",
     category: "frontend",
-    topics: [""],
+    topics: [
+      "Introduction to React.js and Babel",
+      "Introduction to CRA and Vite",
+      "React.js components and functions",
+      "React.js useState and useEffect hooks",
+      "State management with Redux and Zustand",
+      "API layer with Axios and JWT",
+      "API layer with TanStack Router and Query",
+    ],
     subpath: "frontend2",
   },
   {
