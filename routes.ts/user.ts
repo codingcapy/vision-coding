@@ -12,7 +12,7 @@ import { enforceRateLimit } from "./rateLimit";
 
 const scryptAsync = promisify(scrypt);
 
-function toSafeUser(user: typeof usersTable.$inferSelect) {
+export function toSafeUser(user: typeof usersTable.$inferSelect) {
   const { password, ...safeUser } = user;
   return safeUser;
 }

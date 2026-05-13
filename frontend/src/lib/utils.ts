@@ -120,7 +120,7 @@ export const courses: Course[] = [
     description: "For programmers wanting to solidify networking fundamentals",
     category: "frontend",
     topics: [
-      "Physical layer - physical and digital data",
+      "Physical layer - analog and digital data",
       "Physical layer - impairments and collisions",
       "Data link layer - Framing and MAC ID",
       "Data link layer - Error handling and flags",
