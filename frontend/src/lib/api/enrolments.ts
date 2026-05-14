@@ -20,7 +20,11 @@ export type EnrolmentsCursor = {
 } | null;
 
 async function createEnrolment(args: CreateEnrolmentArgs) {
-  const res = await client.api.v0.enrolments.$post({ json: args });
+  const token = getSession();
+  const res = await client.api.v0.enrolments.$post(
+    { json: args },
+    token ? { headers: { Authorization: `Bearer ${token}` } } : undefined,
+  );
   if (!res.ok) {
     let errorMessage =
       "There was an issue creating your enrolment :( We'll look into it ASAP!";
@@ -51,8 +55,10 @@ export const useCreateEnrolmentMutation = (
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createEnrolment,
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["enrolments"] });
+    onSettled: (_data, _error, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["enrolment", variables.course],
+      });
     },
     onError: (error) => {
       if (onError) {
@@ -80,11 +86,12 @@ async function getEnrolment(course: string) {
     throw new Error("Error getting post by id");
   }
   const { enrolment } = await res.json();
-  return enrolment;
+  return enrolment ?? null;
 }
 
 export const getEnrolmentQueryOptions = (course: string) =>
   queryOptions({
     queryKey: ["enrolment", course],
     queryFn: () => getEnrolment(course),
+    enabled: !!getSession(),
   });

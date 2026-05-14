@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
@@ -38,6 +39,11 @@ const SignupRoute = SignupRouteImport.update({
 const ProgramsRoute = ProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
   '/programs': typeof ProgramsRoute
   '/signup': typeof SignupRoute
   '/courses/all': typeof CoursesAllRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
   '/programs': typeof ProgramsRoute
   '/signup': typeof SignupRoute
   '/courses/all': typeof CoursesAllRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
+  '/profile': typeof ProfileRoute
   '/programs': typeof ProgramsRoute
   '/signup': typeof SignupRoute
   '/courses/all': typeof CoursesAllRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/login'
+    | '/profile'
     | '/programs'
     | '/signup'
     | '/courses/all'
@@ -227,6 +237,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/login'
+    | '/profile'
     | '/programs'
     | '/signup'
     | '/courses/all'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/login'
+    | '/profile'
     | '/programs'
     | '/signup'
     | '/courses/all'
@@ -272,6 +284,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
+  ProfileRoute: typeof ProfileRoute
   ProgramsRoute: typeof ProgramsRoute
   SignupRoute: typeof SignupRoute
   CoursesAllRoute: typeof CoursesAllRoute
@@ -304,6 +317,13 @@ declare module '@tanstack/react-router' {
       path: '/programs'
       fullPath: '/programs'
       preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -440,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
+  ProfileRoute: ProfileRoute,
   ProgramsRoute: ProgramsRoute,
   SignupRoute: SignupRoute,
   CoursesAllRoute: CoursesAllRoute,
