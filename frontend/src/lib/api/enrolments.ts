@@ -1,9 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { type ArgumentTypes, client } from "./client";
 
 type CreateEnrolmentArgs = ArgumentTypes<
   typeof client.api.v0.enrolments.$post
 >[0]["json"];
+
+const TOKEN_KEY = "jwt_access_token";
+
+export function getSession() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export type EnrolmentsCursor = {
+  enrolmentId: number;
+} | null;
 
 async function createEnrolment(args: CreateEnrolmentArgs) {
   const res = await client.api.v0.enrolments.$post({ json: args });
@@ -47,3 +61,30 @@ export const useCreateEnrolmentMutation = (
     },
   });
 };
+
+async function getEnrolment(course: string) {
+  const token = getSession();
+  const res = await client.api.v0.enrolments[":course"].$get(
+    {
+      param: { course: course.toString() },
+    },
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
+  );
+  if (!res.ok) {
+    throw new Error("Error getting post by id");
+  }
+  const { enrolment } = await res.json();
+  return enrolment;
+}
+
+export const getEnrolmentQueryOptions = (course: string) =>
+  queryOptions({
+    queryKey: ["enrolment", course],
+    queryFn: () => getEnrolment(course),
+  });

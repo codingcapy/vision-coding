@@ -5,11 +5,14 @@ import z from "zod";
 import jwt from "jsonwebtoken";
 import { db } from "../db";
 import { mightFail } from "might-fail";
-import { enrolments as enrolmentsTable } from "../schemas/enrolments";
+import {
+  courseEnum,
+  enrolments as enrolmentsTable,
+} from "../schemas/enrolments";
 import { and, desc, eq, getTableColumns, lt, ne } from "drizzle-orm";
 
 const createEnrolmentSchema = z.object({
-  course: z.string().max(80),
+  course: z.enum(courseEnum.enumValues),
 });
 
 const getEnrolmentsSchema = z.object({
@@ -132,4 +135,28 @@ export const enrolmentsRouter = new Hono()
     const nextCursor =
       hasMore && lastEnrolment ? lastEnrolment.enrolmentId : null;
     return c.json({ enrolments, nextCursor });
+  })
+  .get("/:course", async (c) => {
+    const decodedUser = requireUser(c);
+    const courseParam = c.req.param().course;
+    const parsedCourse = z.enum(courseEnum.enumValues).safeParse(courseParam);
+    if (!parsedCourse.success)
+      throw new HTTPException(400, { message: "Invalid course" });
+    const course = parsedCourse.data;
+    const { error: enrolmentQueryError, result: enrolmentQueryResult } =
+      await mightFail(
+        db
+          .select()
+          .from(enrolmentsTable)
+          .where(
+            and(
+              eq(enrolmentsTable.course, course),
+              eq(enrolmentsTable.userId, decodedUser.id),
+              ne(enrolmentsTable.status, "cancelled"),
+            ),
+          ),
+      );
+    if (enrolmentQueryError)
+      throw new HTTPException(500, { message: "error querying enrolment" });
+    return c.json({ enrolment: enrolmentQueryResult[0] });
   });
