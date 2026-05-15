@@ -25,7 +25,7 @@ export function Header() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-screen p-2 bg-[#0a0a0ac3] text-white z-50">
+    <div className="fixed top-0 left-0 w-screen p-2 bg-[#0a0a0aea] text-white z-50">
       <div className="max-w-[1300px] flex justify-between items-center mx-auto">
         <Link
           to="/"
@@ -126,8 +126,13 @@ export function Header() {
               </Link>
             </div>
           )}
-          {menuMode === "user" && (
+          {user && menuMode === "user" && (
             <div className="absolute px-3 top-[40px] right-[0px] bg-[#0a0a0ac3] flex flex-col">
+              <Link to="/profile" onClick={() => setMenuMode("none")}>
+                <div className="py-2 hover:text-blue-500 transition-all ease-in-out duration-300">
+                  {user.username}
+                </div>
+              </Link>
               <div
                 onClick={() => {
                   logoutService();
@@ -164,8 +169,13 @@ export function Header() {
             Contact
           </Link>
           {user ? (
-            <div onClick={() => setMenuMode("user")} className="py-2">
-              {user.username}
+            <div>
+              <Link to="/profile" onClick={() => setShowNav(false)}>
+                <div className="py-2">{user.username}</div>
+              </Link>
+              <div onClick={logoutService} className="bg-red-800 py-2">
+                Log out
+              </div>
             </div>
           ) : (
             <Link

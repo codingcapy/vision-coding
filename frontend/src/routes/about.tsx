@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatedText } from "../components/AnimatedText";
 
 export const Route = createFileRoute("/about")({
-  component: RouteComponent,
+  component: AboutPage,
 });
 
-function RouteComponent() {
+function AboutPage() {
   return (
     <div className="bg-[radial-gradient(circle_500px_at_top_left,#27505d,black)] md:bg-[radial-gradient(circle_900px_at_top_left,#27505d,black)] text-white min-h-screen p-2 md:p-0">
       <div className="max-w-[1200px] mx-auto pt-[100px] text-center">

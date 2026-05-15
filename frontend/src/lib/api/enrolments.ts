@@ -1,4 +1,5 @@
 import {
+  infiniteQueryOptions,
   queryOptions,
   useMutation,
   useQueryClient,
@@ -94,4 +95,36 @@ export const getEnrolmentQueryOptions = (course: string) =>
     queryKey: ["enrolment", course],
     queryFn: () => getEnrolment(course),
     enabled: !!getSession(),
+  });
+
+async function getEnrolments(cursor?: number) {
+  const token = getSession();
+  const res = await client.api.v0.enrolments.$get(
+    {
+      query: cursor !== undefined ? { cursor: cursor.toString() } : {},
+    },
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
+  );
+  if (!res.ok) {
+    throw new Error("Error getting enrolments");
+  }
+  const data = await res.json();
+  return {
+    enrolments: data.enrolments,
+    nextCursor: data.nextCursor,
+  };
+}
+
+export const getEnrolmentsInfiniteQueryOptions = () =>
+  infiniteQueryOptions({
+    queryKey: ["enrolments"],
+    queryFn: ({ pageParam }) => getEnrolments(pageParam),
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });

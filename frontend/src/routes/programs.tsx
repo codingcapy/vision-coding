@@ -13,10 +13,10 @@ export type Program = {
 };
 
 export const Route = createFileRoute("/programs")({
-  component: RouteComponent,
+  component: ProgramsPage,
 });
 
-function RouteComponent() {
+function ProgramsPage() {
   const programs: Program[] = [
     {
       title: "Python",

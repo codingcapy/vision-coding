@@ -175,3 +175,15 @@ export const courses: Course[] = [
     subpath: "practicum",
   },
 ];
+
+export const coursesMap = new Map<string, string>([
+  ["datacomm", "Data Communications"],
+  ["comparch", "Computer Architecture"],
+  ["python1", "Python I"],
+  ["python2", "Python II"],
+  ["frontend1", "Frontend I"],
+  ["frontend2", "Frontend II"],
+  ["backend1", "Backend I"],
+  ["backend2", "Backend II"],
+  ["practicum", "Practicum"],
+]);
