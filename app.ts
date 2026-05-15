@@ -9,6 +9,7 @@ import { rateLimiter } from "hono-rate-limiter";
 import { usersRouter } from "./routes.ts/users";
 import { userRouter } from "./routes.ts/user";
 import { enrolmentsRouter } from "./routes.ts/enrolments";
+import { messagesRouter } from "./routes.ts/messages";
 
 const getClientIp = (c: Context) =>
   c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
@@ -37,6 +38,14 @@ app.use(
     keyGenerator: getClientIp,
   }),
 );
+app.use(
+  "/api/v0/messages",
+  rateLimiter({
+    windowMs: 60 * 60 * 1000,
+    limit: 5,
+    keyGenerator: getClientIp,
+  }),
+);
 
 const PORT = parseInt(process.env.PORT!) || 3333;
 
@@ -44,7 +53,8 @@ const apiRoutes = app
   .basePath("/api/v0")
   .route("/users", usersRouter)
   .route("/user", userRouter)
-  .route("/enrolments", enrolmentsRouter);
+  .route("/enrolments", enrolmentsRouter)
+  .route("/messages", messagesRouter);
 
 export type ApiRoutes = typeof apiRoutes;
 export default app;
