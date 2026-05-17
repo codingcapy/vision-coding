@@ -128,3 +128,35 @@ export const getEnrolmentsInfiniteQueryOptions = () =>
     initialPageParam: undefined as number | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
+
+async function getAdminEnrolments(cursor?: number) {
+  const token = getSession();
+  const res = await client.api.v0.enrolments.all.$get(
+    {
+      query: cursor !== undefined ? { cursor: cursor.toString() } : {},
+    },
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
+  );
+  if (!res.ok) {
+    throw new Error("Error getting all enrolments");
+  }
+  const data = await res.json();
+  return {
+    enrolments: data.enrolments,
+    nextCursor: data.nextCursor,
+  };
+}
+
+export const getAdminEnrolmentsInfiniteQueryOptions = () =>
+  infiniteQueryOptions({
+    queryKey: ["enrolments", "all"],
+    queryFn: ({ pageParam }) => getAdminEnrolments(pageParam),
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  });
