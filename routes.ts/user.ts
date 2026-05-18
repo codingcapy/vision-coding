@@ -9,22 +9,13 @@ import { createInsertSchema } from "drizzle-zod";
 import { randomBytes, scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { enforceRateLimit } from "./rateLimit";
+import { verifyPassword } from "./utils";
 
 const scryptAsync = promisify(scrypt);
 
 export function toSafeUser(user: typeof usersTable.$inferSelect) {
   const { password, ...safeUser } = user;
   return safeUser;
-}
-
-export async function verifyPassword(hash: string, password: string) {
-  const parts = hash.split(":");
-  if (parts.length !== 2) throw new Error("Invalid hash format");
-  const [salt, keyHex] = parts as [string, string];
-  const derivedKey = (await scryptAsync(password, salt, 64)) as Buffer;
-  const storedKey = Buffer.from(keyHex, "hex");
-  if (derivedKey.length !== storedKey.length) return false;
-  return timingSafeEqual(derivedKey, storedKey);
 }
 
 const loginSchema = z.object({

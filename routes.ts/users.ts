@@ -9,6 +9,7 @@ import { users as usersTable } from "../schemas/users";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { randomUUIDv7 } from "bun";
+import { requireUser, verifyPassword } from "./utils";
 
 const scryptAsync = promisify(scrypt);
 
@@ -24,10 +25,13 @@ const createUserSchema = z.object({
   password: z.string().min(8).max(128),
 });
 
-export const usersRouter = new Hono().post(
-  "/",
-  zValidator("json", createUserSchema),
-  async (c) => {
+const updatePasswordSchema = z.object({
+  currentPassword: z.string().max(128),
+  password: z.string().min(8).max(128),
+});
+
+export const usersRouter = new Hono()
+  .post("/", zValidator("json", createUserSchema), async (c) => {
     const insertValues = c.req.valid("json");
     const { error: emailQueryError, result: emailQueryResult } =
       await mightFail(
@@ -104,5 +108,46 @@ export const usersRouter = new Hono().post(
       });
     }
     return c.json({ user: createdUser }, 200);
-  },
-);
+  })
+  .post(
+    "/update/password",
+    zValidator("json", updatePasswordSchema),
+    async (c) => {
+      const decodedUser = requireUser(c);
+      const updateValues = c.req.valid("json");
+      const { error: userQueryError, result: userQueryResult } =
+        await mightFail(
+          db
+            .select()
+            .from(usersTable)
+            .where(eq(usersTable.userId, decodedUser.id)),
+        );
+      if (userQueryError || !userQueryResult[0]) {
+        throw new HTTPException(500, { message: "Error fetching user" });
+      }
+      const isCurrentPasswordValid = await verifyPassword(
+        userQueryResult[0].password,
+        updateValues.currentPassword,
+      );
+      if (!isCurrentPasswordValid) {
+        throw new HTTPException(401, {
+          message: "Current password is incorrect",
+        });
+      }
+      const encrypted = await hashPassword(updateValues.password);
+      const { error: updateError, result: updateResult } = await mightFail(
+        db
+          .update(usersTable)
+          .set({ password: encrypted })
+          .where(eq(usersTable.userId, decodedUser.id))
+          .returning(),
+      );
+      if (updateError) {
+        throw new HTTPException(500, {
+          message: "Error while updating password",
+          cause: updateError,
+        });
+      }
+      return c.json({ user: updateResult[0] }, 200);
+    },
+  );

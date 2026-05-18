@@ -10,6 +10,7 @@ import {
   enrolments as enrolmentsTable,
 } from "../schemas/enrolments";
 import { and, desc, eq, getTableColumns, lt, ne } from "drizzle-orm";
+import { requireUser } from "./utils";
 
 const createEnrolmentSchema = z.object({
   course: z.enum(courseEnum.enumValues),
@@ -19,21 +20,6 @@ const getEnrolmentsSchema = z.object({
   cursor: z.coerce.number().optional(),
   limit: z.coerce.number().min(1).max(50).default(10),
 });
-
-export function requireUser(c: Context) {
-  const authHeader = c.req.header("authorization");
-  if (!authHeader?.startsWith("Bearer ")) {
-    throw new HTTPException(401, { message: "Unauthorized" });
-  }
-  try {
-    return jwt.verify(authHeader.split(" ")[1]!, process.env.JWT_SECRET!) as {
-      id: string;
-      role: string;
-    };
-  } catch {
-    throw new HTTPException(401, { message: "Invalid token" });
-  }
-}
 
 export const enrolmentsRouter = new Hono()
   .post("/", zValidator("json", createEnrolmentSchema), async (c) => {

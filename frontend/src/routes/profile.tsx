@@ -61,10 +61,22 @@ function ProfilePage() {
             Your Profile
           </div>
           {user && (
-            <div className="w-[300px] mx-auto mb-10">
-              <div>username: {user.username}</div>
-              <div>email: {user.email}</div>
-              <div>password: ●●●●●●●●●●●●</div>
+            <div className="sm:w-[500px] mx-auto mb-10">
+              <div className="flex">
+                <div className="w-[150px] sm:w-[250px]">username:</div>
+                <div>{user.username}</div>
+              </div>
+              <div className="flex">
+                <div className="w-[150px] sm:w-[250px]">email:</div>
+                <div>{user.email}</div>
+              </div>
+              <div className="flex">
+                <div className="w-[150px] sm:w-[250px]">password:</div>
+                <div>●●●●●●●●●●●●</div>
+                <div className="ml-2 border rounded px-2 cursor-pointer hover:text-blue-500 transition-all ease-in-out duration-300">
+                  Change
+                </div>
+              </div>
             </div>
           )}
         </AnimatedText>

@@ -52,12 +52,14 @@ function ContactPage() {
               placeholder="Email"
               value={emailContent}
               onChange={(e) => setEmailContent(e.target.value)}
+              required
             />
             <textarea
               className="border rounded w-full p-2 my-1 h-[300px]"
               placeholder="Your message"
               value={messageContent}
               onChange={(e) => setMessageContent(e.target.value)}
+              required
             />
             <button className="bg-blue-500 rounded w-full py-2 my-2 font-bold cursor-pointer hover:bg-blue-400 transition-all ease-in-out duration-300">
               Send
