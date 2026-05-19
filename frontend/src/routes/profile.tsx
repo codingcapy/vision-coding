@@ -1,10 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AnimatedText } from "../components/AnimatedText";
 import useAuthStore from "../store/AuthStore";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getEnrolmentsInfiniteQueryOptions } from "../lib/api/enrolments";
 import { coursesMap } from "../lib/utils";
+import { FaCheck, FaXmark } from "react-icons/fa6";
+import { useUpdatePasswordMutation } from "../lib/api/users";
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
@@ -25,6 +27,10 @@ function ProfilePage() {
   });
   const enrolments = enrolmentsData?.pages.flatMap((p) => p.enrolments);
   const enrolmentsSentinelRef = useRef<HTMLDivElement | null>(null);
+  const [editPasswordMode, setEditPasswordMode] = useState(false);
+  const { mutate: updatePassword, isPending: updatePasswordPending } =
+    useUpdatePasswordMutation();
+  const [passwordNotification, setPasswordNotification] = useState("");
 
   const fetchNextEnrolmentsPageCallback = useCallback(() => {
     if (hasNextEnrolmentsPage && !isFetchingNextEnrolmentsPage) {
@@ -35,6 +41,27 @@ function ProfilePage() {
     isFetchingNextEnrolmentsPage,
     fetchNextEnrolmentsPage,
   ]);
+  function handleSubmitUpdatePassword(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (updatePasswordPending) return;
+    const currentPassword = (e.target as HTMLFormElement).currentPassword.value;
+    const password = (e.target as HTMLFormElement).password.value;
+    if (password.length < 8) {
+      setPasswordNotification("New password must be at least 8 characters.");
+      return;
+    }
+    updatePassword(
+      { currentPassword, password },
+      {
+        onSuccess: () => {
+          setEditPasswordMode(false);
+          setPasswordNotification("Success!");
+        },
+        onError: (errorMessage) =>
+          setPasswordNotification(errorMessage.message),
+      },
+    );
+  }
 
   useEffect(() => {
     const sentinel = enrolmentsSentinelRef.current;
@@ -72,9 +99,56 @@ function ProfilePage() {
               </div>
               <div className="flex">
                 <div className="w-[150px] sm:w-[250px]">password:</div>
-                <div>●●●●●●●●●●●●</div>
-                <div className="ml-2 border rounded px-2 cursor-pointer hover:text-blue-500 transition-all ease-in-out duration-300">
-                  Change
+                {editPasswordMode ? (
+                  <form onSubmit={handleSubmitUpdatePassword} className="flex">
+                    <input
+                      type="password"
+                      name="currentPassword"
+                      id="currentPassword"
+                      placeholder="Current"
+                      className="sm:w-[130px] border rounded px-1 mr-1"
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      placeholder="New"
+                      className="sm:w-[130px] border rounded px-1"
+                      required
+                    />
+                    <button className="w-[35px] cursor-pointer text-green-500 flex items-center justify-center">
+                      <FaCheck />
+                    </button>
+                    <div
+                      onClick={() => setEditPasswordMode(false)}
+                      className="cursor-pointer text-red-500 flex items-center justify-center"
+                    >
+                      <FaXmark />
+                    </div>
+                  </form>
+                ) : (
+                  <div className="flex">
+                    <div>●●●●●●●●●●●●</div>
+                    <div
+                      onClick={() => setEditPasswordMode(true)}
+                      className="ml-2 border rounded px-2 cursor-pointer hover:text-blue-500 transition-all ease-in-out duration-300"
+                    >
+                      Change
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="flex">
+                <div className="w-[150px] sm:w-[250px]"></div>
+                <div
+                  className={
+                    passwordNotification === "Success!"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }
+                >
+                  {passwordNotification}
                 </div>
               </div>
             </div>

@@ -5,9 +5,14 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import useAuthStore from "../../store/AuthStore";
+import { getSession } from "./enrolments";
 
 type CreateUserArgs = ArgumentTypes<
   typeof client.api.v0.users.$post
+>[0]["json"];
+
+type UpdatePasswordArgs = ArgumentTypes<
+  typeof client.api.v0.users.update.password.$post
 >[0]["json"];
 
 async function createUser(args: CreateUserArgs) {
@@ -42,6 +47,58 @@ export const useCreateUserMutation = (onError?: (message: string) => void) => {
     mutationFn: createUser,
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: (error) => {
+      if (onError) {
+        onError(error.message);
+      }
+    },
+  });
+};
+
+async function UpdatePassword(args: UpdatePasswordArgs) {
+  const token = getSession();
+  const res = await client.api.v0.users.update.password.$post(
+    { json: args },
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
+  );
+  if (!res.ok) {
+    let errorMessage =
+      "There was an issue updating your password :( We'll look into it ASAP!";
+    try {
+      const errorResponse = await res.json();
+      if (
+        errorResponse &&
+        typeof errorResponse === "object" &&
+        "message" in errorResponse
+      ) {
+        errorMessage = String(errorResponse.message);
+      }
+    } catch (error) {
+      console.error("Failed to parse error response:", error);
+    }
+    throw new Error(errorMessage);
+  }
+  const result = await res.json();
+  return result;
+}
+
+export const useUpdatePasswordMutation = (
+  onError?: (message: string) => void,
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: UpdatePassword,
+    onSettled: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
     },
     onError: (error) => {
       if (onError) {
