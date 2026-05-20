@@ -43,9 +43,11 @@ export const userRouter = new Hono()
       if (!isPasswordValid) {
         return c.json({ result: { user: null, token: null } });
       }
-      const token = jwt.sign({ id: user.userId }, process.env.JWT_SECRET!, {
-        expiresIn: "14 days",
-      });
+      const token = jwt.sign(
+        { id: user.userId, role: user.role },
+        process.env.JWT_SECRET!,
+        { expiresIn: "14 days" },
+      );
       return c.json({ result: { user: toSafeUser(user), token } });
     } catch (error) {
       console.error(error);
@@ -68,10 +70,18 @@ export const userRouter = new Hono()
         //@ts-ignore
         .where(eq(usersTable.userId, decodedUser.id));
       const user = response[0];
+      const freshToken =
+        user && user.status === "active"
+          ? jwt.sign(
+              { id: user.userId, role: user.role },
+              process.env.JWT_SECRET!,
+              { expiresIn: "14 days" },
+            )
+          : null;
       return c.json({
         result: {
           user: user && user.status === "active" ? toSafeUser(user) : null,
-          token,
+          token: freshToken,
         },
       });
     } catch (err) {
