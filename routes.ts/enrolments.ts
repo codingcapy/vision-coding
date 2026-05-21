@@ -9,6 +9,7 @@ import {
   courseEnum,
   enrolments as enrolmentsTable,
 } from "../schemas/enrolments";
+import { users as usersTable } from "../schemas/users";
 import { and, desc, eq, getTableColumns, lt, ne } from "drizzle-orm";
 import { requireUser } from "./utils";
 
@@ -102,8 +103,13 @@ export const enrolmentsRouter = new Hono()
     const { result: enrolmentsQueryResult, error: enrolmentsQueryError } =
       await mightFail(
         db
-          .select(getTableColumns(enrolmentsTable))
+          .select({
+            ...getTableColumns(enrolmentsTable),
+            username: usersTable.username,
+            email: usersTable.email,
+          })
           .from(enrolmentsTable)
+          .innerJoin(usersTable, eq(enrolmentsTable.userId, usersTable.userId))
           .where(cursorClause)
           .orderBy(desc(enrolmentsTable.enrolmentId))
           .limit(limit + 1),

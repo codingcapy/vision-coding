@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { getAdminEnrolmentsInfiniteQueryOptions } from "../lib/api/enrolments";
 import { useCallback, useEffect, useRef } from "react";
 import useAuthStore from "../store/AuthStore";
+import { MdModeEditOutline } from "react-icons/md";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -62,17 +63,33 @@ function AdminPage() {
           <div>Error loading enrolments</div>
         ) : enrolments ? (
           <div className="mx-auto">
-            <div>Enrolment ID</div>
+            <div className="flex">
+              <div className="w-[30px]">EID</div>
+              <div className="w-[170px]">created at</div>
+              <div className="w-[100px]">status</div>
+              <div className="w-[100px] mr-2">username</div>
+              <div className="w-[100px] mr-2">email</div>
+              <div className="w-[100px]">course</div>
+              <div className="w-[100px]">progress</div>
+              <div className="w-[170px]">started at</div>
+              <div className="w-[170px]">ended at</div>
+            </div>
             {enrolments.map((e) => (
               <div key={e.enrolmentId} className="flex">
-                <div>{e.enrolmentId}</div>
-                <div>{e.createdAt}</div>
-                <div>{e.status}</div>
-                <div>{e.userId}</div>
-                <div>{e.course}</div>
-                <div>{e.progress}</div>
-                <div>{e.startedAt}</div>
-                <div>{e.endedAt}</div>
+                <div className="w-[30px]">{e.enrolmentId}</div>
+                <div className="w-[170px]">{e.createdAt.slice(0, 19)}</div>
+                <div className="w-[100px]">{e.status}</div>
+                <div className="w-[100px] mr-2 truncate">{e.username}</div>
+                <div className="w-[100px] mr-2 truncate">{e.email}</div>
+                <div className="w-[100px]">{e.course}</div>
+                <div className="w-[100px]">{e.progress}</div>
+                <div className="w-[170px]">
+                  {e.startedAt && e.startedAt.slice(0, 19)}
+                </div>
+                <div className="w-[170px]">
+                  {e.endedAt && e.endedAt.slice(0, 19)}
+                </div>
+                <MdModeEditOutline />
               </div>
             ))}
             {isFetchingNextEnrolmentsPage && (
