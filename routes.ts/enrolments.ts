@@ -7,6 +7,7 @@ import { db } from "../db";
 import { mightFail } from "might-fail";
 import {
   courseEnum,
+  statusEnum,
   enrolments as enrolmentsTable,
 } from "../schemas/enrolments";
 import { users as usersTable } from "../schemas/users";
@@ -20,6 +21,16 @@ const createEnrolmentSchema = z.object({
 const getEnrolmentsSchema = z.object({
   cursor: z.coerce.number().optional(),
   limit: z.coerce.number().min(1).max(50).default(10),
+});
+
+const updateEnrolmentSchema = z.object({
+  enrolmentId: z.number(),
+  course: z.enum(courseEnum.enumValues).optional(),
+  status: z.enum(statusEnum.enumValues).optional(),
+  createdAt: z.coerce.date().optional(),
+  startedAt: z.coerce.date().nullable().optional(),
+  endedAt: z.coerce.date().nullable().optional(),
+  progress: z.number().optional(),
 });
 
 export const enrolmentsRouter = new Hono()
@@ -151,4 +162,24 @@ export const enrolmentsRouter = new Hono()
     if (enrolmentQueryError)
       throw new HTTPException(500, { message: "error querying enrolment" });
     return c.json({ enrolment: enrolmentQueryResult[0] });
+  })
+  .post("/update", zValidator("json", updateEnrolmentSchema), async (c) => {
+    const decodedUser = requireUser(c);
+    if (decodedUser.role !== "admin")
+      throw new HTTPException(403, { message: "Forbidden" });
+    const { enrolmentId, ...updateValues } = c.req.valid("json");
+    const { result: updateEnrolmentResult, error: updateEnrolmentError } =
+      await mightFail(
+        db
+          .update(enrolmentsTable)
+          .set(updateValues)
+          .where(eq(enrolmentsTable.enrolmentId, enrolmentId))
+          .returning(),
+      );
+    if (updateEnrolmentError || !updateEnrolmentResult[0])
+      throw new HTTPException(500, {
+        message: "Error while updating enrolment",
+        cause: updateEnrolmentError,
+      });
+    return c.json({ enrolment: updateEnrolmentResult[0] }, 200);
   });

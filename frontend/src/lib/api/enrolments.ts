@@ -10,6 +10,10 @@ type CreateEnrolmentArgs = ArgumentTypes<
   typeof client.api.v0.enrolments.$post
 >[0]["json"];
 
+type UpdateEnrolmentArgs = ArgumentTypes<
+  typeof client.api.v0.enrolments.update.$post
+>[0]["json"];
+
 const TOKEN_KEY = "jwt_access_token";
 
 export function getSession() {
@@ -160,3 +164,17 @@ export const getAdminEnrolmentsInfiniteQueryOptions = () =>
     initialPageParam: undefined as number | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
+
+async function UpdateEnrolment(args: UpdateEnrolmentArgs) {
+  const token = getSession();
+  const res = await client.api.v0.enrolments.update.$post(
+    { json: args },
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : undefined,
+  );
+}
