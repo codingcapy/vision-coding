@@ -178,3 +178,22 @@ async function UpdateEnrolment(args: UpdateEnrolmentArgs) {
       : undefined,
   );
 }
+
+export const useUpdateEnrolmentMutation = (
+  onError?: (message: string) => void,
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: UpdateEnrolment,
+    onSettled: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["enrolments"],
+      });
+    },
+    onError: (error) => {
+      if (onError) {
+        onError(error.message);
+      }
+    },
+  });
+};
