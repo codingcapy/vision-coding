@@ -4,6 +4,7 @@ import { getAdminEnrolmentsInfiniteQueryOptions } from "../lib/api/enrolments";
 import { useCallback, useEffect, useRef } from "react";
 import useAuthStore from "../store/AuthStore";
 import { MdModeEditOutline } from "react-icons/md";
+import { EnrolmentComponent } from "../components/EnromentComponent";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
@@ -75,22 +76,7 @@ function AdminPage() {
               <div className="w-[170px]">ended at</div>
             </div>
             {enrolments.map((e) => (
-              <div key={e.enrolmentId} className="flex">
-                <div className="w-[30px]">{e.enrolmentId}</div>
-                <div className="w-[170px]">{e.createdAt.slice(0, 19)}</div>
-                <div className="w-[100px]">{e.status}</div>
-                <div className="w-[100px] mr-2 truncate">{e.username}</div>
-                <div className="w-[100px] mr-2 truncate">{e.email}</div>
-                <div className="w-[100px]">{e.course}</div>
-                <div className="w-[100px]">{e.progress}</div>
-                <div className="w-[170px]">
-                  {e.startedAt && e.startedAt.slice(0, 19)}
-                </div>
-                <div className="w-[170px]">
-                  {e.endedAt && e.endedAt.slice(0, 19)}
-                </div>
-                <MdModeEditOutline />
-              </div>
+              <EnrolmentComponent key={e.enrolmentId} e={e} />
             ))}
             {isFetchingNextEnrolmentsPage && (
               <div className="py-3 text-sm text-[#a0a0a0]">Loading more...</div>
