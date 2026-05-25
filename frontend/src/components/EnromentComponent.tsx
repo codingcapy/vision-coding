@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { MdModeEditOutline } from "react-icons/md";
+import { courses } from "../lib/utils";
+import { PiCaretDownBold } from "react-icons/pi";
+
+const STATUSES = ["pending", "active", "completed", "cancelled"] as const;
+type DropdownMode = "none" | "status" | "course";
 
 export function EnrolmentComponent(props: {
   e: {
@@ -26,41 +31,73 @@ export function EnrolmentComponent(props: {
   };
 }) {
   const [adminMode, setAdminMode] = useState(false);
+  const [usernameContent, setUsernameContent] = useState(props.e.username);
+  const [emailContent, setEmailContent] = useState(props.e.email);
+  const [progressContent, setProgressContent] = useState(props.e.progress);
   const [statusContent, setStatusContent] = useState(props.e.status);
-  const [showStatusDropdown, setShowStatusDropdown] = useState(false);
-  const [courseContent, setCourseContent] = useState(props.e.status);
-  const [showCourseDropdown, setShowCourseDropdown] = useState(false);
+  const [courseContent, setCourseContent] = useState(props.e.course);
+  const [dropdownMode, setDropdownMode] = useState<DropdownMode>("none");
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  function handleClickOutside(event: MouseEvent) {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setDropdownMode("none");
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <div>
       {adminMode ? (
-        <div className="flex my-2">
+        <div className="relative flex my-2" ref={menuRef}>
           <div className="w-[30px]">{props.e.enrolmentId}</div>
           <div className="w-[170px]">{props.e.createdAt.slice(0, 19)}</div>
-          <div className="w-[92px] mr-2 border text-center">
-            {props.e.status}
+          <div
+            onClick={() => setDropdownMode("status")}
+            className="flex items-center justify-center w-[92px] mr-2 border text-center cursor-pointer"
+          >
+            <div>{statusContent}</div>
+            <PiCaretDownBold />
           </div>
           <input
-            placeholder={props.e.username}
+            placeholder="username"
             className="w-[100px] mr-2 overflow-x-auto border px-1"
             name="username"
             id="username"
+            value={usernameContent}
+            onChange={(e) => setUsernameContent(e.target.value)}
+            required
           />
           <input
             placeholder={props.e.email}
             className="w-[100px] mr-2 overflow-x-auto border px-1"
             name="email"
             id="email"
+            value={emailContent}
+            onChange={(e) => setEmailContent(e.target.value)}
+            required
           />
-          <div className="w-[92px] border text-center mr-2">
-            {props.e.course}
+          <div
+            onClick={() => {
+              setDropdownMode("course");
+            }}
+            className="flex items-center justify-center w-[92px] border text-center mr-2 cursor-pointer"
+          >
+            <div>{courseContent}</div>
+            <PiCaretDownBold />
           </div>
           <input
             type="number"
-            value={props.e.progress}
             className="w-[100px] mr-2 overflow-x-auto border px-1"
             name="progress"
             id="progress"
+            value={progressContent}
+            onChange={(e) => setProgressContent(Number(e.target.value))}
+            required
           />
           <div className="w-[162px] border text-center mr-2">
             {props.e.startedAt && props.e.startedAt.slice(0, 19)}
@@ -77,6 +114,38 @@ export function EnrolmentComponent(props: {
           >
             <FaXmark />
           </div>
+          {dropdownMode === "status" && (
+            <div className="absolute top-7 left-[200px] bg-[#222222] border text-center">
+              {STATUSES.map((s) => (
+                <div
+                  onClick={() => {
+                    setStatusContent(s);
+                    setDropdownMode("none");
+                  }}
+                  key={s}
+                  className="w-[90px] cursor-pointer py-1"
+                >
+                  {s}
+                </div>
+              ))}
+            </div>
+          )}
+          {dropdownMode === "course" && (
+            <div className="absolute top-7 left-[516px] bg-[#222222] border text-center">
+              {courses.map((s) => (
+                <div
+                  key={s.title}
+                  onClick={() => {
+                    setCourseContent(s.subpath);
+                    setDropdownMode("none");
+                  }}
+                  className="w-[90px] cursor-pointer py-1"
+                >
+                  {s.subpath}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <div key={props.e.enrolmentId} className="flex my-2">

@@ -55,7 +55,7 @@ function AdminPage() {
   }, [user]);
 
   return (
-    <div className="bg-[radial-gradient(circle_500px_at_top_left,#27505d,black)] md:bg-[radial-gradient(circle_900px_at_top_left,#27505d,black)] text-white min-h-screen p-2 md:p-0">
+    <div className="bg-[radial-gradient(circle_500px_at_top_left,#27505d,black)] md:bg-[radial-gradient(circle_900px_at_top_left,#27505d,black)] text-white min-h-screen p-2 md:p-0 md:pb-[300px]">
       <div className="pt-[100px] md:pt-[150px] flex flex-col">
         <div className="text-center text-4xl font-bold mb-10">All Courses</div>
         {enrolmentsLoading ? (
@@ -81,7 +81,10 @@ function AdminPage() {
             {isFetchingNextEnrolmentsPage && (
               <div className="py-3 text-sm text-[#a0a0a0]">Loading more...</div>
             )}
-            <div ref={enrolmentsSentinelRef} />
+            <div
+              className="bg-[#222222] h-[50px]"
+              ref={enrolmentsSentinelRef}
+            />
           </div>
         ) : (
           <div></div>
