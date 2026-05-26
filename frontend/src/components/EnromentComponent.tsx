@@ -3,9 +3,12 @@ import { FaCheck, FaXmark } from "react-icons/fa6";
 import { MdModeEditOutline } from "react-icons/md";
 import { courses } from "../lib/utils";
 import { PiCaretDownBold } from "react-icons/pi";
+import { useUpdateEnrolmentMutation } from "../lib/api/enrolments";
+import { format } from "date-fns";
+import { DayPicker, type MonthChangeEventHandler } from "react-day-picker";
 
 const STATUSES = ["pending", "active", "completed", "cancelled"] as const;
-type DropdownMode = "none" | "status" | "course";
+type DropdownMode = "none" | "status" | "course" | "startedAt" | "endedAt";
 
 export function EnrolmentComponent(props: {
   e: {
@@ -31,13 +34,26 @@ export function EnrolmentComponent(props: {
   };
 }) {
   const [adminMode, setAdminMode] = useState(false);
-  const [usernameContent, setUsernameContent] = useState(props.e.username);
-  const [emailContent, setEmailContent] = useState(props.e.email);
   const [progressContent, setProgressContent] = useState(props.e.progress);
   const [statusContent, setStatusContent] = useState(props.e.status);
   const [courseContent, setCourseContent] = useState(props.e.course);
   const [dropdownMode, setDropdownMode] = useState<DropdownMode>("none");
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const {
+    mutate: updateEnrolment,
+    isPending: updateEnrolmentPending,
+    error: updateEnrolmentError,
+  } = useUpdateEnrolmentMutation();
+
+  function handleSubmit() {
+    if (updateEnrolmentPending) return;
+    updateEnrolment({
+      enrolmentId: props.e.enrolmentId,
+      status: statusContent,
+      course: courseContent,
+      progress: progressContent,
+    });
+  }
 
   function handleClickOutside(event: MouseEvent) {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -63,24 +79,10 @@ export function EnrolmentComponent(props: {
             <div>{statusContent}</div>
             <PiCaretDownBold />
           </div>
-          <input
-            placeholder="username"
-            className="w-[100px] mr-2 overflow-x-auto border px-1"
-            name="username"
-            id="username"
-            value={usernameContent}
-            onChange={(e) => setUsernameContent(e.target.value)}
-            required
-          />
-          <input
-            placeholder={props.e.email}
-            className="w-[100px] mr-2 overflow-x-auto border px-1"
-            name="email"
-            id="email"
-            value={emailContent}
-            onChange={(e) => setEmailContent(e.target.value)}
-            required
-          />
+          <div className="w-[100px] mr-2 overflow-x-auto">
+            {props.e.username}
+          </div>
+          <div className="w-[100px] mr-2 overflow-x-auto">{props.e.email}</div>
           <div
             onClick={() => {
               setDropdownMode("course");
@@ -99,13 +101,22 @@ export function EnrolmentComponent(props: {
             onChange={(e) => setProgressContent(Number(e.target.value))}
             required
           />
-          <div className="w-[162px] border text-center mr-2">
+          <div
+            onClick={() => setDropdownMode("startedAt")}
+            className="w-[162px] border text-center mr-2 cursor-pointer"
+          >
             {props.e.startedAt && props.e.startedAt.slice(0, 19)}
           </div>
-          <div className="w-[162px] border text-center mr-2">
+          <div
+            onClick={() => setDropdownMode("endedAt")}
+            className="w-[162px] border text-center mr-2 cursor-pointer"
+          >
             {props.e.endedAt && props.e.endedAt.slice(0, 19)}
           </div>
-          <button className="w-[35px] cursor-pointer text-green-500 flex items-center justify-center">
+          <button
+            onClick={handleSubmit}
+            className="w-[35px] cursor-pointer text-green-500 flex items-center justify-center"
+          >
             <FaCheck />
           </button>
           <div
@@ -115,7 +126,7 @@ export function EnrolmentComponent(props: {
             <FaXmark />
           </div>
           {dropdownMode === "status" && (
-            <div className="absolute top-7 left-[200px] bg-[#222222] border text-center">
+            <div className="absolute top-10 left-[200px] bg-[#222222] border text-center">
               {STATUSES.map((s) => (
                 <div
                   onClick={() => {
@@ -131,7 +142,7 @@ export function EnrolmentComponent(props: {
             </div>
           )}
           {dropdownMode === "course" && (
-            <div className="absolute top-7 left-[516px] bg-[#222222] border text-center">
+            <div className="absolute top-10 left-[516px] bg-[#222222] border text-center">
               {courses.map((s) => (
                 <div
                   key={s.title}
@@ -144,6 +155,40 @@ export function EnrolmentComponent(props: {
                   {s.subpath}
                 </div>
               ))}
+            </div>
+          )}
+          {dropdownMode === "startedAt" && (
+            <div className="absolute top-12 right-[235px] bg-[#333333] p-2">
+              <DayPicker
+                mode="single"
+                // selected={targetDate}
+                // month={calendarMonth}
+                //onMonthChange={
+                // setCalendarMonth as MonthChangeEventHandler
+                // }
+                onSelect={(date) => {
+                  //  setTargetDate(date || new Date());
+                  //setShowCalendar(false);
+                }}
+                //classNames={{ caption: "hidden" }}
+              />
+            </div>
+          )}
+          {dropdownMode === "endedAt" && (
+            <div className="absolute top-12 right-[65px] bg-[#333333] p-2">
+              <DayPicker
+                mode="single"
+                // selected={targetDate}
+                // month={calendarMonth}
+                //onMonthChange={
+                // setCalendarMonth as MonthChangeEventHandler
+                // }
+                onSelect={(date) => {
+                  //  setTargetDate(date || new Date());
+                  //setShowCalendar(false);
+                }}
+                //classNames={{ caption: "hidden" }}
+              />
             </div>
           )}
         </div>
