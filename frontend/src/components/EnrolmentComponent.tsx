@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 import { MdModeEditOutline } from "react-icons/md";
-import { courses } from "../lib/utils";
+import { courses, MONTHS, YEARS } from "../lib/utils";
 import { PiCaretDownBold } from "react-icons/pi";
 import { useUpdateEnrolmentMutation } from "../lib/api/enrolments";
 import { format } from "date-fns";
@@ -44,15 +44,58 @@ export function EnrolmentComponent(props: {
     isPending: updateEnrolmentPending,
     error: updateEnrolmentError,
   } = useUpdateEnrolmentMutation();
+  const [startMonth, setStartMonth] = useState<Date | null>(
+    props.e.startedAt ? new Date(props.e.startedAt) : null,
+  );
+  const [endMonth, setEndMonth] = useState<Date | null>(
+    props.e.endedAt ? new Date(props.e.endedAt) : null,
+  );
+  const [startDate, setStartDate] = useState<Date | null>(
+    props.e.startedAt ? new Date(props.e.startedAt) : null,
+  );
+  const [endDate, setEndDate] = useState<Date | null>(
+    props.e.endedAt ? new Date(props.e.endedAt) : null,
+  );
+
+  function handleStartMonthDropdown(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newMonth = startMonth ? new Date(startMonth) : new Date();
+    newMonth.setMonth(parseInt(e.target.value));
+    setStartMonth(newMonth);
+  }
+
+  function handleStartYearDropdown(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newMonth = startMonth ? new Date(startMonth) : new Date();
+    newMonth.setFullYear(parseInt(e.target.value));
+    setStartMonth(newMonth);
+  }
+
+  function handleEndMonthDropdown(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newMonth = endMonth ? new Date(endMonth) : new Date();
+    newMonth.setMonth(parseInt(e.target.value));
+    setEndMonth(newMonth);
+  }
+
+  function handleEndYearDropdown(e: React.ChangeEvent<HTMLSelectElement>) {
+    const newMonth = endMonth ? new Date(endMonth) : new Date();
+    newMonth.setFullYear(parseInt(e.target.value));
+    setEndMonth(newMonth);
+  }
 
   function handleSubmit() {
     if (updateEnrolmentPending) return;
-    updateEnrolment({
-      enrolmentId: props.e.enrolmentId,
-      status: statusContent,
-      course: courseContent,
-      progress: progressContent,
-    });
+    updateEnrolment(
+      {
+        enrolmentId: props.e.enrolmentId,
+        status: statusContent,
+        course: courseContent,
+        progress: progressContent,
+      },
+      {
+        onSuccess: () => {
+          setAdminMode(false);
+        },
+      },
+    );
   }
 
   function handleClickOutside(event: MouseEvent) {
@@ -103,15 +146,15 @@ export function EnrolmentComponent(props: {
           />
           <div
             onClick={() => setDropdownMode("startedAt")}
-            className="w-[162px] border text-center mr-2 cursor-pointer"
+            className="w-[162px] border text-center mr-2 cursor-pointer line-clamp-1"
           >
-            {props.e.startedAt && props.e.startedAt.slice(0, 19)}
+            {startDate && startDate.toISOString().slice(0, 10)}
           </div>
           <div
             onClick={() => setDropdownMode("endedAt")}
-            className="w-[162px] border text-center mr-2 cursor-pointer"
+            className="w-[162px] border text-center mr-2 cursor-pointer line-clamp-1"
           >
-            {props.e.endedAt && props.e.endedAt.slice(0, 19)}
+            {endDate && endDate.toISOString().slice(0, 10)}
           </div>
           <button
             onClick={handleSubmit}
@@ -159,36 +202,104 @@ export function EnrolmentComponent(props: {
           )}
           {dropdownMode === "startedAt" && (
             <div className="absolute top-12 right-[235px] bg-[#333333] p-2">
-              <DayPicker
-                mode="single"
-                // selected={targetDate}
-                // month={calendarMonth}
-                //onMonthChange={
-                // setCalendarMonth as MonthChangeEventHandler
-                // }
-                onSelect={(date) => {
-                  //  setTargetDate(date || new Date());
-                  //setShowCalendar(false);
-                }}
-                //classNames={{ caption: "hidden" }}
-              />
+              <div className="bg-[#404040] p-2">
+                <div className="flex justify-between items-center gap-1 px-1 pb-2">
+                  <select
+                    value={
+                      startMonth ? startMonth.getMonth() : new Date().getMonth()
+                    }
+                    onChange={handleStartMonthDropdown}
+                    className="bg-[#555555] text-white text-xs rounded px-1 py-0.5 cursor-pointer"
+                  >
+                    {MONTHS.map((month, i) => (
+                      <option key={month} value={i}>
+                        {month}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={
+                      startMonth
+                        ? startMonth.getFullYear()
+                        : new Date().getFullYear()
+                    }
+                    onChange={handleStartYearDropdown}
+                    className="bg-[#555555] text-white text-xs rounded px-1 py-0.5 cursor-pointer"
+                  >
+                    {YEARS.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <DayPicker
+                  mode="single"
+                  selected={startDate ? startDate : new Date()}
+                  month={startMonth ? startMonth : new Date()}
+                  onMonthChange={setStartMonth as MonthChangeEventHandler}
+                  onSelect={(date) => {
+                    setStartDate(date || new Date());
+                    setDropdownMode("none");
+                  }}
+                  classNames={{
+                    months: "w-full",
+                    month: "w-full",
+                    month_grid: "w-full",
+                  }}
+                />
+              </div>
             </div>
           )}
           {dropdownMode === "endedAt" && (
             <div className="absolute top-12 right-[65px] bg-[#333333] p-2">
-              <DayPicker
-                mode="single"
-                // selected={targetDate}
-                // month={calendarMonth}
-                //onMonthChange={
-                // setCalendarMonth as MonthChangeEventHandler
-                // }
-                onSelect={(date) => {
-                  //  setTargetDate(date || new Date());
-                  //setShowCalendar(false);
-                }}
-                //classNames={{ caption: "hidden" }}
-              />
+              <div className="bg-[#404040] p-2">
+                <div className="flex justify-between items-center gap-1 px-1 pb-2">
+                  <select
+                    value={
+                      endMonth ? endMonth.getMonth() : new Date().getMonth()
+                    }
+                    onChange={handleEndMonthDropdown}
+                    className="bg-[#555555] text-white text-xs rounded px-1 py-0.5 cursor-pointer"
+                  >
+                    {MONTHS.map((month, i) => (
+                      <option key={month} value={i}>
+                        {month}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={
+                      endMonth
+                        ? endMonth.getFullYear()
+                        : new Date().getFullYear()
+                    }
+                    onChange={handleEndYearDropdown}
+                    className="bg-[#555555] text-white text-xs rounded px-1 py-0.5 cursor-pointer"
+                  >
+                    {YEARS.map((year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <DayPicker
+                  mode="single"
+                  selected={endDate ? endDate : new Date()}
+                  month={endMonth ? endMonth : new Date()}
+                  onMonthChange={setEndMonth as MonthChangeEventHandler}
+                  onSelect={(date) => {
+                    setEndDate(date || new Date());
+                    setDropdownMode("none");
+                  }}
+                  classNames={{
+                    months: "w-full",
+                    month: "w-full",
+                    month_grid: "w-full",
+                  }}
+                />
+              </div>
             </div>
           )}
         </div>

@@ -4,7 +4,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { type ArgumentTypes, client } from "./client";
+import { type ArgumentTypes, client, type ExtractData } from "./client";
 
 type CreateEnrolmentArgs = ArgumentTypes<
   typeof client.api.v0.enrolments.$post
@@ -13,6 +13,45 @@ type CreateEnrolmentArgs = ArgumentTypes<
 type UpdateEnrolmentArgs = ArgumentTypes<
   typeof client.api.v0.enrolments.update.$post
 >[0]["json"];
+
+// type AdminEnrolment = {
+//   username: string;
+//   email: string;
+//   enrolmentId: number;
+//   userId: string;
+//   course:
+//     | "python1"
+//     | "python2"
+//     | "frontend1"
+//     | "frontend2"
+//     | "backend1"
+//     | "backend2"
+//     | "practicum"
+//     | "datacomm"
+//     | "comparch";
+//   status: "pending" | "active" | "completed" | "cancelled";
+//   startedAt: Date | null;
+//   endedAt: Date | null;
+//   progress: number;
+//   createdAt: Date;
+// };
+
+// type SerializeEnrolment = Extract<
+//   ExtractData<
+//     Awaited<ReturnType<(typeof client.api.v0.enrolments.all)["$get"]>>
+//   >,
+//   { enrolments: any[] }
+// >["enrolments"][number];
+
+// export function mapSerializedFinancialGoalToSchema(
+//   serialized: SerializeEnrolment,
+// ): AdminEnrolment {
+//   return {
+//     ...serialized,
+//     startedAt: new Date(serialized.startedAt),
+//     endedAt: new Date(serialized.endedAt),
+//   };
+// }
 
 const TOKEN_KEY = "jwt_access_token";
 

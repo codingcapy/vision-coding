@@ -4,7 +4,7 @@ import { getAdminEnrolmentsInfiniteQueryOptions } from "../lib/api/enrolments";
 import { useCallback, useEffect, useRef } from "react";
 import useAuthStore from "../store/AuthStore";
 import { MdModeEditOutline } from "react-icons/md";
-import { EnrolmentComponent } from "../components/EnromentComponent";
+import { EnrolmentComponent } from "../components/EnrolmentComponent";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
