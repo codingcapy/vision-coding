@@ -89,6 +89,8 @@ export function EnrolmentComponent(props: {
         status: statusContent,
         course: courseContent,
         progress: progressContent,
+        startedAt: startDate,
+        endedAt: endDate,
       },
       {
         onSuccess: () => {

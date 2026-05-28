@@ -166,11 +166,8 @@ function ProfilePage() {
         ) : enrolments ? (
           <>
             {enrolments.map((e) => (
-              <AnimatedText id={e.enrolmentId.toString()}>
-                <div
-                  key={e.enrolmentId}
-                  className="flex flex-col border rounded p-5 bg-[#222222] mb-3 sm:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300 my-3 sm:w-[500px] mx-auto"
-                >
+              <AnimatedText key={e.enrolmentId} id={e.enrolmentId.toString()}>
+                <div className="flex flex-col border rounded p-5 bg-[#222222] mb-3 sm:mb-0 hover:border-blue-500 transition-all ease-in-out duration-300 my-3 sm:w-[500px] mx-auto">
                   <div>{coursesMap.get(e.course)}</div>
                   <div
                     className={`${e.status === "completed" ? "text-green-500" : e.status === "cancelled" ? "text-red-500" : e.status === "active" ? "text-yellow-500" : "italic text-[#8e8e8e]"}`}
@@ -179,6 +176,31 @@ function ProfilePage() {
                       ? "In progress"
                       : e.status.charAt(0).toUpperCase() + e.status.slice(1)}
                   </div>
+                  {e.status !== "pending" && (
+                    <div>
+                      Start date:{" "}
+                      {e.startedAt && e.startedAt.toString().slice(0, 10)}
+                    </div>
+                  )}
+                  {e.status === "completed" && (
+                    <div>
+                      End date: {e.endedAt && e.endedAt.toString().slice(0, 10)}
+                    </div>
+                  )}
+                  {e.status === "active" && (
+                    <div>
+                      <div>Progress:</div>
+                      <div className="flex">
+                        <div className="my-1 relative w-[300px] h-[15px] bg-gray-500 rounded-full border">
+                          <div
+                            className="absolute top-[-5px] left-0 my-1 h-[15px] bg-green-500 rounded-full border"
+                            style={{ width: `${e.progress * 3}px` }}
+                          ></div>
+                        </div>
+                        <div className="ml-2">{e.progress}%</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </AnimatedText>
             ))}
