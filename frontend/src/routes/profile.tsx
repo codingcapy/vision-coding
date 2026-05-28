@@ -182,7 +182,7 @@ function ProfilePage() {
                       {e.startedAt && e.startedAt.toString().slice(0, 10)}
                     </div>
                   )}
-                  {e.status === "completed" && (
+                  {(e.status === "completed" || e.status === "cancelled") && (
                     <div>
                       End date: {e.endedAt && e.endedAt.toString().slice(0, 10)}
                     </div>
